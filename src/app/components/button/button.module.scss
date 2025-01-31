@@ -1,0 +1,40 @@
+@use "../../styles/variables.scss" as *;
+
+.button {
+  cursor: pointer;
+  position: relative;
+  border: none;
+  border-radius: 2rem;
+  padding: 0.75rem 2.5rem;
+  box-shadow: inset 0 0 0 1px rgba(158, 158, 158, 0.1); /* Border effect */
+  background-color: $color-secondary;
+  color: $text-color-dark;
+  font-size: 1.25rem;
+  transition:
+    color $transition-duration ease-in-out,
+    background-color $transition-duration ease-in-out;
+
+  &:hover {
+    background-color: $color-secondary-light;
+    color: $text-color;
+  }
+}
+
+.underline {
+  position: relative;
+
+  &:after { /* Thin underline */
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 100%;
+    height: 1px; 
+    background: linear-gradient(90deg, transparent, #5976BA, #6654D0, transparent);
+    transform: translateX(-50%) scaleX(0.5);
+    transition: transform $transition-duration ease-in-out;
+  }
+  &:hover:after {
+    transform: translateX(-50%) scaleX(0.8);
+  }
+}

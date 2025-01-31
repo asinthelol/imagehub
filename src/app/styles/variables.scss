@@ -1,0 +1,17 @@
+$background-color: rgba(15, 15, 17, 1);
+$foreground-color: rgba(19, 18, 22, 1);
+
+$color-primary: linear-gradient(90deg, transparent, #5976BA, #6654D0, transparent);
+$color-secondary: rgba(17, 17, 17, 1);
+$color-secondary-light: rgba(23, 23, 23, 1);
+
+$text-color: rgba(242, 239, 234, 1);
+$text-color-dark: rgba(242, 239, 234, 0.75);
+
+$mobile-breakpoint: 27rem;
+$portrait-breakpoint: 64rem;
+$landscape-breakpoint: 80rem;
+
+$animation-duration: 0.3s;
+$transition-duration: 0.2s;
+$transition-duration-2: 0.5s;

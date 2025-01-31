@@ -1,0 +1,150 @@
+@use "../../styles/variables.scss" as *;
+@use "../../styles/mixins.scss" as *;
+
+#navbarContainer {
+  @include flex(flex-start, center);
+  
+  height: 6rem;
+
+  .overlay { /* Mobile menu overlay */
+    display: none;
+    position: fixed;
+
+    top: 0;
+
+    width: 100%;
+    height: 0vh;
+    background-color: $foreground-color;
+
+    transition: height $transition-duration ease-in-out;
+
+    z-index: 1;
+
+    /* Overlay height increases to 100vh when the mobile menu is open */
+  &.open { height: 100vh; }
+  &.closed { height: 0vh; }
+  }
+
+  #navbar {
+    @include flex(space-between, center);
+
+    list-style: none;
+
+    width: 80%;
+
+    margin: 2.5rem 10rem;
+
+    z-index: 2;
+
+    .navLink {
+      cursor: pointer;
+
+      transition: background-color $transition-duration ease;
+
+      a:nth-of-type(2) {
+        margin-left: 4rem;
+      }
+    }
+
+    .navLink:first-of-type {
+      a {
+        color: $text-color;
+        margin-left: 2rem;
+      }
+    }
+
+    .mobileMenu {
+      display: none;
+
+      @media screen and (max-width: $mobile-breakpoint) {
+        display: block;
+      }
+    }
+  }
+
+  #hamburger {
+    display: none;
+    row-gap: 0.5rem;
+
+    height: 3rem;
+    width: 3rem;
+
+    margin-right: 1.5rem;
+
+    cursor: pointer;
+
+    z-index: 2;
+
+    .hamburgerLine {
+
+      width: 100%;
+      height: 0.25rem;
+
+      border-radius: 0.25rem;
+      background-color: $text-color;
+      
+
+      transition: transform $transition-duration ease;
+    }
+
+    &.open {
+      .hamburgerLine:first-of-type { transform: translateX(0.5rem) }
+      .hamburgerLine:nth-of-type(2){ transform: translateX(-.5rem) }
+      .hamburgerLine:last-of-type { transform: translateX(0.5rem) }
+    }
+    z-index: 100;
+  }
+}
+
+@media screen and (max-width: $mobile-breakpoint) {
+  #navbarContainer {
+    #navbar {
+      margin: 0 1rem;
+      
+      .navLink:last-of-type {
+        user-select: none;
+        pointer-events: none;
+
+        @include flex(center, center, column);
+        row-gap: 3rem;
+
+        opacity: 0;
+
+        a {
+          opacity: 0;
+          background: transparent;
+          transition: opacity $transition-duration-2 ease-in-out;
+        }
+
+        a:nth-of-type(2) {
+          margin-left: 0rem;
+        }
+
+        &.open {
+          @include flex(center, center, column);
+          user-select: none;
+          pointer-events: auto;
+  
+          opacity: 1;
+  
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+  
+          a {
+            user-select:auto;
+            opacity: 1;
+          }
+        }
+      }
+    }
+    .overlay {
+      display: block;
+    }
+  
+    #hamburger {
+      @include flex(center, center, column);
+    }
+  } 
+}

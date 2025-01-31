@@ -1,0 +1,53 @@
+@use "./styles/variables.scss" as *;
+@use "./styles/mixins.scss" as *;
+
+html { scrollbar-gutter: stable; }
+
+body {
+  @include flex(space-between, stretch, column);
+
+  position: relative;
+  background-color: $background-color;
+  color: $text-color;
+
+  min-height: 100vh;
+  min-height: 100svh;
+
+  main {
+    flex-grow: 1;
+  }
+
+  a {
+    font-size: 1.25rem;
+    text-decoration: none;
+    color: $text-color-dark;
+
+    transition: color $transition-duration ease-in-out;
+
+    &:hover {
+      color: $text-color;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  @media screen and (max-width: $portrait-breakpoint) {
+    body {
+      row-gap: 5rem;
+    }
+  }
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    body {
+      /*
+      * The main content area is slightly higher on mobile if I
+      * use svh, so I'm using vh instead. 
+      */
+      min-height: 100vh;
+    }
+    
+  }
+}
