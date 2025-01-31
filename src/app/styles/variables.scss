@@ -1,7 +1,8 @@
 $background-color: rgba(15, 15, 17, 1);
 $foreground-color: rgba(19, 18, 22, 1);
 
-$color-primary: linear-gradient(90deg, transparent, #5976BA, #6654D0, transparent);
+$color-primary: linear-gradient(to right, #5976BA, #6654D0);
+$color-primary-underline: linear-gradient(to right, transparent, #5976BA, #6654D0, transparent);
 $color-secondary: rgba(17, 17, 17, 1);
 $color-secondary-light: rgba(23, 23, 23, 1);
 

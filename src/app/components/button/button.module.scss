@@ -30,7 +30,7 @@
     bottom: 0;
     width: 100%;
     height: 1px; 
-    background: linear-gradient(90deg, transparent, #5976BA, #6654D0, transparent);
+    background: $color-primary-underline;
     transform: translateX(-50%) scaleX(0.5);
     transition: transform $transition-duration ease-in-out;
   }
