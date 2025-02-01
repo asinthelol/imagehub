@@ -6,24 +6,24 @@ import styles from "./navbar.module.scss";
 export default function Navbar() {
   const { isOpen, toggleMenu, closeIfOpen } = useToggleMenu();
   return (
-    <header>
-          <nav id={styles.navbarContainer}>
+    <header id={styles.header}>
+          <nav id={styles["navbar-container"]}>
             <div
               className={`
                 ${styles.overlay}
                 ${isOpen ? styles.open : styles.closed}`}
             />
             <ul id={`${styles.navbar}`}>
-              <li className={styles.navLink} onClick={closeIfOpen}>
+              <li className={styles["nav-link"]} onClick={closeIfOpen}>
               <Link href="/" onClick={toggleMenu}>
                 ImageHub
               </Link>
               </li>
-              <li className={`${styles.navLink} ${isOpen ? styles.open : ""}`}>
+              <li className={`${styles["nav-link"]} ${isOpen ? styles.open : ""}`}>
               <Link href="#" onClick={toggleMenu}>
-                Contact
+                Upload
               </Link>
-                <Button text="Explore" style="underline" href="/explore" />
+                <Button text="Explore" style="" href="/explore" />
               </li>
             </ul>
             <div
@@ -32,9 +32,9 @@ export default function Navbar() {
               onClick={toggleMenu}
               aria-label="Hamburger menu"
             >
-              <span className={styles.hamburgerLine}></span>
-              <span className={styles.hamburgerLine}></span>
-              <span className={styles.hamburgerLine}></span>
+              <span className={styles["hamburger-line"]}></span>
+              <span className={styles["hamburger-line"]}></span>
+              <span className={styles["hamburger-line"]}></span>
             </div>
           </nav>
         </header>

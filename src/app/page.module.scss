@@ -2,13 +2,12 @@
 @use "./styles/mixins.scss" as *;
 
 #container {
-  @include flex(center, center);;
-  width: 100%;
-  flex-grow: 1;
+  @include flex(center, center);
+  width: 65%;
 
   #hero {
-    @include flex(center, center);
-    column-gap: 4rem;
+    @include flex(space-between, center);
+    flex: auto;
 
     width: 100%;
     height: fit-content;
@@ -18,7 +17,7 @@
       row-gap: 1rem;
 
       h1 {
-        font-size: 4rem;
+        font-size: 3rem;
 
         span {
           background-image: $color-primary;
@@ -27,20 +26,64 @@
           color: transparent;
         }
       }
+      p {
+        font-size: 1.5rem;
+        font-weight: 200;
+        color: $text-color-dark;
+      }
     }
 
     #hero-image-container {
       @include flex(center, center);
       position: relative;
-      width: 22.5rem;
-      height: 22.5rem;
-    }
-    #hero-image {
-      max-width: clamp(10rem, 20vw, 22.5rem);
-      max-height: clamp(10rem, 20vw, 22.5rem);
-      object-fit: cover;
-      border-radius: 50%;
+      width: clamp(14rem, 18vw, 22.5rem);
+      height: clamp(14rem, 18vw, 22.5rem);
+
+      #hero-image {
+        max-width: clamp(14rem, 18vw, 22.5rem);
+        max-height: clamp(14rem, 18vw, 22.5rem);
+        object-fit: cover;
+        border-radius: 50%;
+
+        box-shadow: 0 0 50px 30px rgba(89, 118, 185, 0.1); /* Border effect */
+      }
     }
   }
+}
 
+@media screen and (max-width: $portrait-breakpoint) {
+  #container {
+    #hero {
+      @include flex(center, center, column);
+      row-gap: 8rem;
+
+      #hero-content {
+        align-items: center;
+        order: 2;
+
+        h1, p {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $mobile-breakpoint) {
+  #container {
+    width: 100%;
+
+    #hero {
+      row-gap: 5rem;
+
+      #hero-content {
+        h1 {
+          font-size: 2rem;
+        }
+        p {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
 }
