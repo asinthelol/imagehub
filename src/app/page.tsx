@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: "Discover your next favorite artwork right here.",
 };
 
-export default function Home() {
+export default function Page() {
   return (
     <main id={styles.container}>
       <section id={styles.hero}>
@@ -18,7 +18,7 @@ export default function Home() {
             all in <span>one place</span>.
           </h1>
           <p>Discover your next favorite artwork<br />right here.</p>
-          <Button text="Explore" style="underline" href="/explore" />
+          <Button text="Search" style="underline" href="/explore" />
         </div>
         <div id={styles["hero-image-container"]}>
           <Image

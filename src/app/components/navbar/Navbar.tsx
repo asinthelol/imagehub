@@ -23,7 +23,7 @@ export default function Navbar() {
               <Link href="#" onClick={toggleMenu}>
                 Upload
               </Link>
-                <Button text="Explore" style="" href="/explore" />
+                <Button text="Search" style="" href="/explore" />
               </li>
             </ul>
             <div
