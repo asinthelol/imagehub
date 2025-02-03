@@ -5,10 +5,11 @@ type ButtonProps = {
   text: string;
   style: string;
   href: string;
+  onClick: () => void;
 }
 
-export default function Button({ text, style, href }: ButtonProps) {
+export default function Button({ text, style, href, onClick }: ButtonProps) {
   return (
-    <Link className={`${styles[style]} ${styles.button}`} aria-label="button" href={href}>{text}</Link>
+    <Link className={`${styles[style]} ${styles.button}`} aria-label="button" href={href} onClick={onClick}>{text}</Link>
   );
 }

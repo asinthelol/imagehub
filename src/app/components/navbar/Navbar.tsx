@@ -15,7 +15,7 @@ export default function Navbar() {
             />
             <ul id={`${styles.navbar}`}>
               <li className={styles["nav-link"]} onClick={closeIfOpen}>
-              <Link href="/" onClick={toggleMenu}>
+              <Link href="/" onClick={() => { if (isOpen) { toggleMenu(); } }}>
                 ImageHub
               </Link>
               </li>
@@ -23,7 +23,7 @@ export default function Navbar() {
               <Link href="#" onClick={toggleMenu}>
                 Upload
               </Link>
-                <Button text="Search" style="" href="/explore" />
+                <Button text="Search" style="" href="/search" onClick={toggleMenu} />
               </li>
             </ul>
             <div

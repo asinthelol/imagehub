@@ -18,7 +18,7 @@ export default function Page() {
             all in <span>one place</span>.
           </h1>
           <p>Discover your next favorite artwork<br />right here.</p>
-          <Button text="Search" style="underline" href="/explore" />
+          <Button text="Search" style="underline" href="/search" />
         </div>
         <div id={styles["hero-image-container"]}>
           <Image

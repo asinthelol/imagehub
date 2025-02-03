@@ -1,0 +1,13 @@
+@use "../../../styles/mixins.scss" as *;
+
+.result {
+  position: relative;
+
+  @include flex(flex-end, center, column);
+  row-gap: 0.5rem;
+
+  .result-image {
+    object-fit: cover;
+    border-radius: 0.5rem;
+  }
+}

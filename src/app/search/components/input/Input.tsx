@@ -1,11 +1,10 @@
 import styles from "./input.module.scss";
-import icons from "../../../styles/globalicons.scss";
 
 export default function Input() {
   return (
     <section id={styles["input-container"]}>
         <span 
-          className={icons["material-symbols-outlined"]}
+          className={styles["material-symbols-outlined"]}
           id={styles["search-icon"]}>
             search
           </span>
