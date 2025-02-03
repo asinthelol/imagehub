@@ -1,2 +1,20 @@
 @use "../styles/variables.scss" as *;
 @use "../styles/mixins.scss" as *;
+
+#container {
+  @flex(center, center, column);
+
+  width: 65%;
+
+  #results-container {
+    @include flex(center, flex-start);
+
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: $mobile-breakpoint) {
+  #container {
+    width: 87.5%;
+  }
+}

@@ -1,4 +1,6 @@
+@use "../../../styles/variables.scss" as *;
 @use "../../../styles/mixins.scss" as *;
+@use "sass:color";
 
 .result {
   position: relative;
@@ -6,8 +8,110 @@
   @include flex(flex-end, center, column);
   row-gap: 0.5rem;
 
+  width: 20rem;
+  height: 12.5rem;
+
+  .delete-icon {
+    @include flex;
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+
+    top: 0;
+    right: 0;
+
+    width: 2rem;
+    height: 2rem;
+
+    margin: 0.5rem;
+
+    border-radius: 0.25rem;
+
+    background-color: rgba(221,20,58, 1);
+
+    transition:
+      opacity $transition-duration ease-in-out,
+      background-color $transition-duration ease-in-out;
+
+    &:hover {
+      background-color: color.scale(rgba(221,20,58, 1), $lightness: -20%);
+    }
+  }
+
+  .result-info {
+    pointer-events: none;
+    opacity: 0;
+    @include flex(space-between);
+    position: absolute;
+
+    bottom: 0;
+
+    width: 20rem;
+
+    margin: 0.5rem 0;
+
+    transition: opacity $transition-duration ease-in-out;
+
+    .result-name {
+      font-size: 1rem;
+      color: $text-color;
+      
+      margin-left: 0.5rem;
+    }
+
+    .download-icon {
+      @include flex;
+
+      width: 2rem;
+      height: 2rem;
+
+      margin-right: 0.5rem;
+      
+      border-radius: 0.25rem;
+
+      background-color: rgba(51,205,50, 1);
+
+      transition: background-color $transition-duration ease-in-out;
+
+      &:hover {
+        background-color: color.scale(rgba(51,205,50,200), $lightness: -20%);
+      }
+    }
+  }
+
+  &::before {
+    @include flex;
+    content: "";
+    position: absolute;
+
+    bottom: 0;
+    
+    opacity: 0;
+
+    height: 30%;
+    width: 100%;
+
+    border-radius: 0 0 0.5rem 0.5rem;
+
+    background: linear-gradient(to top, rgba(18, 18, 18, 0.75), transparent);
+
+    transition: opacity $transition-duration ease-in-out;
+  }
+
+  &:hover::before {
+    opacity: 1;
+  }
+
+  &:hover {
+    .result-info, .delete-icon {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+
   .result-image {
     object-fit: cover;
     border-radius: 0.5rem;
+
   }
 }

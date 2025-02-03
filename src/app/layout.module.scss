@@ -42,15 +42,10 @@ body {
       * use svh, so I'm using vh instead. 
       */
       min-height: 100vh;
+
+      @include flex(space-between, stretch, column);
+      row-gap: 4rem;
     }
     
   }
-}
-
-@media screen and (max-width: $mobile-breakpoint) {
-  body {
-    @include flex(space-between, stretch, column);
-    row-gap: 4rem;
-  }
-  
 }
