@@ -1,7 +1,7 @@
-import styles from "./input.module.scss";
+import styles from "./searchbar.module.scss";
 import "../../../styles/icons.scss";
 
-export default function Input() {
+export default function Searchbar() {
   return (
     <section id={styles["input-container"]}>
         <span 
@@ -10,7 +10,7 @@ export default function Input() {
             search
           </span>
         <input
-          className={styles["search-input"]}
+          id={styles["search-input"]}
           type="search"
           placeholder="Search..." />
       </section>

@@ -1,0 +1,40 @@
+@use "../../../styles/variables.scss" as *;
+@use "../../../styles/mixins.scss" as *;
+@use "sass:color";
+
+#input-container {
+  @include flex(flex-start);
+  column-gap: 0.5rem;
+
+  padding: 0.5rem 1rem;
+
+  width: 65%;
+
+  border-radius: 2rem;
+
+  background-color: $color-secondary-light;
+
+  outline: solid thin color.scale($color-secondary, $lightness: 10%);
+
+  #search-icon {
+    color: $text-color-dark;
+  }
+
+  #search-input {
+    flex: 1;
+
+    font-size: 1.25rem;
+    color: $text-color;
+
+    width: 25rem;
+
+    border: none;
+    outline: none;
+
+    background-color: transparent;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

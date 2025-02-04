@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import styles from "./search.module.scss";
 import Result from "./components/result/Result";
-import Input from "./components/input/Input";
+import SearchBar from "./components/searchbar/Searchbar";
 
 export const metadata: Metadata = {
   title: "Search – ImageHub",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <main id={styles.container}>
-      <Input />
+      <SearchBar />
 
       <hr />
 
