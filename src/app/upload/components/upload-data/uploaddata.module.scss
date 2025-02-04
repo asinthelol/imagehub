@@ -1,0 +1,29 @@
+@use "../../../styles/mixins.scss" as *;
+@use "../../../styles/variables.scss" as *;
+
+#upload-data-container {
+  @include flex(center, center, column);
+  row-gap: 3rem;
+
+  width: 20rem;
+  height: 15rem;
+
+  border-radius: 0.5rem;
+  border: thin solid transparent;
+  outline: solid thin rgba(158, 158, 158, 0.1);
+
+  transition: outline-color $transition-duration ease-in-out;
+
+  #upload-form {
+    @include flex(center, center, column);
+    row-gap: 1rem;
+
+    #counter {
+      color: $text-color;
+    }
+  }
+}
+
+.required {
+  outline-color: red !important;
+}

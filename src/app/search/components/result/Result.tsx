@@ -9,6 +9,7 @@ type DataProps = {
 }
 
 export default function Result({ name, src, alt }: DataProps) {
+
   return (
     <div className={styles.result}>
       <div className={styles["delete-icon"]}>
@@ -32,7 +33,6 @@ export default function Result({ name, src, alt }: DataProps) {
         height={200}
         data-imagename={name}
       />
-    </div>
-    
+    </div> 
   )
 }

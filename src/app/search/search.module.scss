@@ -1,20 +1,59 @@
 @use "../styles/variables.scss" as *;
 @use "../styles/mixins.scss" as *;
+@use "sass:color";
 
 #container {
-  @flex(center, center, column);
+  @include flex(flex-start, center, column);
+  row-gap: 5rem;
+
+  margin-top: 8rem;
 
   width: 65%;
 
+  hr {
+    width: 100%;
+    border: 0.1rem solid $text-color;
+    opacity: 10%;
+  }
+
   #results-container {
     @include flex(center, flex-start);
+    gap: 2rem;
+    flex-wrap: wrap;
 
     width: 100%;
+
+    margin-top: -3rem;
   }
+}
+
+@media screen and (max-width: $portrait-breakpoint) {
+  #container {
+    width: 87.5%;
+
+    h1 {
+      text-align: center;
+    }
+  }
+  
 }
 
 @media screen and (max-width: $mobile-breakpoint) {
   #container {
-    width: 87.5%;
+    row-gap: 3rem;
+
+    width: 100%;
+
+    margin-top: 0;
+
+    hr {
+      width: 87.5%;
+    }
+
+    #results-container {
+      width: 87.5%;
+      align-items: center;
+      flex-direction: column;
+    }
   }
 }

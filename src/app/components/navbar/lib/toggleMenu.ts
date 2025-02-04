@@ -7,7 +7,9 @@ export const useToggleMenu = () => {
     setIsOpen((prev) => !prev);
   };
   const closeIfOpen = () => {
-    if (!isOpen) {toggleMenu;}
+    if (!isOpen) {
+      setIsOpen(false);
+    }
   }
 
   return { isOpen, toggleMenu, closeIfOpen };

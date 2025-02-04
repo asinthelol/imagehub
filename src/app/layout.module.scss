@@ -15,6 +15,7 @@ body {
 
   main {
     flex-grow: 1;
+    height: 100%;
   }
 
   a {
@@ -29,23 +30,33 @@ body {
     }
   }
 
-  @media screen and (max-width: $portrait-breakpoint) {
-    body {
-      row-gap: 5rem;
+  h1 {
+    font-size: 3rem;
+  }
+}
+
+@media screen and (max-width: $portrait-breakpoint) {
+  body {
+    row-gap: 5rem;
+  }
+}
+
+@media screen and (max-width: $mobile-breakpoint) {
+  body {
+    /*
+    * The main content area is slightly higher on mobile if I
+    * use svh, so I'm using vh instead. 
+    */
+    min-height: 100vh;
+
+    @include flex(space-between, stretch, column);
+    row-gap: 3rem;
+
+    main {
+      h1 {
+        font-size: 2rem;
+      }
     }
   }
-
-  @media screen and (max-width: $mobile-breakpoint) {
-    body {
-      /*
-      * The main content area is slightly higher on mobile if I
-      * use svh, so I'm using vh instead. 
-      */
-      min-height: 100vh;
-
-      @include flex(space-between, stretch, column);
-      row-gap: 4rem;
-    }
-    
-  }
+  
 }

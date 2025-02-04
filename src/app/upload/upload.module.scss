@@ -1,0 +1,7 @@
+@use "../styles/mixins.scss" as *;
+@use "../styles/variables.scss" as *;
+
+#container {
+  @include flex;
+  column-gap: 3rem;
+}

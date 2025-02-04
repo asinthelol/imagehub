@@ -11,7 +11,8 @@ export default function Navbar() {
             <div
               className={`
                 ${styles.overlay}
-                ${isOpen ? styles.open : styles.closed}`}
+                ${isOpen ? styles.open : styles.closed}
+              `}
             />
             <ul id={`${styles.navbar}`}>
               <li className={styles["nav-link"]} onClick={closeIfOpen}>
@@ -20,7 +21,7 @@ export default function Navbar() {
               </Link>
               </li>
               <li className={`${styles["nav-link"]} ${isOpen ? styles.open : ""}`}>
-              <Link href="#" onClick={toggleMenu}>
+              <Link href="/upload" onClick={toggleMenu}>
                 Upload
               </Link>
                 <Button text="Search" style="" href="/search" onClick={toggleMenu} />

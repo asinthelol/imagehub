@@ -22,7 +22,6 @@ export default function RootLayout({
     <html lang="en-US">
       <head>
         <link rel="icon" sizes="64x64" href="/favicon.ico" />
-        <link rel="preload" as="image" href="/hero-image.webp" />
       </head>
       <body className={`${inter.className}`}>
         <Navbar />

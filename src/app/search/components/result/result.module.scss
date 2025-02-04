@@ -98,15 +98,11 @@
     transition: opacity $transition-duration ease-in-out;
   }
 
-  &:hover::before {
+  &:hover::before,
+  &:hover .result-info,
+  &:hover .delete-icon {
     opacity: 1;
-  }
-
-  &:hover {
-    .result-info, .delete-icon {
-      opacity: 1;
-      pointer-events: all;
-    }
+    pointer-events: all;
   }
 
   .result-image {
