@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "HeuzCJUGWkt0aTiGBOLYBZqFTvwb58WqiXGaicdk308=",
+  "Source": "ImageHubAPI",
+  "BasePath": "_content/ImageHubAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
