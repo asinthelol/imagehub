@@ -27,8 +27,8 @@ namespace ImageHubAPI.Controllers
         [Consumes("multipart/form-data")]
         public async Task<ActionResult<Image>> PostImage(
             [FromForm] IFormFile file,
-        [FromForm] string imageName,
-        [FromForm] string imagePath)
+            [FromForm] string imageName,
+            [FromForm] string imagePath)
         {
             Console.WriteLine("Received Image Name: " + imageName);
             Console.WriteLine("Received Image Path: " + imagePath);
@@ -64,7 +64,7 @@ namespace ImageHubAPI.Controllers
             image.Path = $"/uploads/{fileName}";
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetImage", new { id = image.Id }, image);
+            return Ok(new { message = "Image uploaded successfully", image });
         }
     }
 }

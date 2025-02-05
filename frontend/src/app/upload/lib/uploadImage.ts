@@ -18,8 +18,8 @@ export default async function uploadImage(
 
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("imageData.ImageName", imageName);
-  formData.append("imageData.ImagePath", "/");
+  formData.append("imageName", imageName);
+  formData.append("imagePath", "/");
 
   try {
     const response = await fetch("http://localhost:5101/api/upload", {
