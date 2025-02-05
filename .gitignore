@@ -21,6 +21,7 @@ frontend/build
 # misc
 .DS_Store
 *.pem
+backend/ImageHubAPI/wwwroot
 
 # debug
 npm-debug.log*
@@ -39,7 +40,7 @@ frontend/*.tsbuildinfo
 frontend/next-env.d.ts
 
 # visual Studio
-backend/.vs/
+*.vs/
 .idea/
 *.suo
 *.user
@@ -47,14 +48,14 @@ backend/.vs/
 *.sln.docstates
 
 # build/binary files
-bin/
-obj/
+backend/ImageHubAPI/bin/
+backend/ImageHubAPI/obj/
 *.dll
 *.exe
 *.log
 *.pdb
 *.cache
-*.csproj.user
+backend/ImageHubAPI/ImageHubAPI.csproj.user
 *.bak
 
 # configs
@@ -62,10 +63,10 @@ appsettings.Development.json
 appsettings.Local.json
 appsettings.Production.json
 secrets.json
-*.config
+backend/ImageHubAPI/obj/.config
 
 # migrations
-Migrations/
+
 
 # db
 *.db
@@ -90,4 +91,10 @@ trace/
 .DS_Store
 Thumbs.db
 
-# deployment
+# config
+backend/ImageHubAPI/appsettings.Development.json
+backend/ImageHubAPI/appsettings.Local.json
+backend/ImageHubAPI/appsettings.Production.json
+backend/ImageHubAPI/secrets.json
+backend/ImageHubAPI/*.config
+backend/ImageHubAPI/Properties/launchSettings.json
