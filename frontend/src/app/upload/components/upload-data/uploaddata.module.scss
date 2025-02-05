@@ -11,7 +11,7 @@
 
   border-radius: 0.5rem;
   border: thin solid transparent;
-  outline: solid thin rgba(158, 158, 158, 0.1);
+  outline: solid thin $outline-color;
 
   transition: outline-color $transition-duration ease-in-out;
 
@@ -38,7 +38,7 @@
     border: none;
     padding: 0.5rem 1rem;
     margin-bottom: 2rem;
-    outline: solid thin color.scale($color-secondary, $lightness: 10%);
+    outline: solid thin $outline-color;
 
     background-color: $color-secondary;
 
