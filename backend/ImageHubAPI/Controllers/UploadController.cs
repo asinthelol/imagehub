@@ -16,12 +16,6 @@ namespace ImageHubAPI.Controllers
             _context = context;
         }
 
-        public class ImageUploadDto
-        {
-            public string ImageName { get; set; } = string.Empty;
-            public string ImagePath { get; set; } = string.Empty;
-        }
-
         // Create a new image
         [HttpPost]
         [Consumes("multipart/form-data")]

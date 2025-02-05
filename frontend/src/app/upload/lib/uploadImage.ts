@@ -10,7 +10,7 @@ export default async function uploadImage(
   }
 
   const imageName = textRef.current.value.trim();
-  const file = fileRef.current.files ? fileRef.current.files[0] : null;
+  const file = fileRef.current?.files?.[0];
 
   if (!imageName || !file) {
     return;
@@ -28,11 +28,7 @@ export default async function uploadImage(
     });
 
     if(response.ok) {
-      alert("Image uploaded successfully");
       console.log("Image uploaded successfully");
-    } else {
-      alert("Failed to upload image1");
-      console.error("Failed to upload image1");
     }
   } catch (error) {
     console.error("Failed to upload image2", error);
