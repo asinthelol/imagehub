@@ -1,50 +1,56 @@
-import { Metadata } from "next";
+"use client";
+import { useState, useEffect } from "react";
 import styles from "./search.module.scss";
 import Result from "./components/result/Result";
 import SearchBar from "./components/search-bar/Searchbar";
+import { fetchImages } from "./lib/fetchImages";
 
-export const metadata: Metadata = {
-  title: "Search – ImageHub",
-  description: "Search for your favorite artwork.",
+type Image = {
+  id: number;
+  name: string;
+  path: string;
 };
 
 export default function Page() {
+  const [images, setImages] = useState<Image[]>([]);
+  const [filteredImages, setFilteredImages] = useState<Image[]>([]);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
+    const loadImages = async () => {
+      const newImages = await fetchImages();
+      setImages(newImages);
+    };
+
+    loadImages();
+
+    const interval = setInterval(loadImages, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const results = images.filter((image) =>
+      image.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredImages(results);
+  }, [searchTerm, images]);
+
   return (
     <main id={styles.container}>
-      <h1>
-        Discover your next favorite artwork.
-      </h1>
+      <h1>Discover your next favorite artwork.</h1>
 
-      <SearchBar />
+      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 
       <hr />
 
       <section id={styles["results-container"]}>
-        <Result
-          name="The Starry Night"
-          src="/hero-image.webp"
-          alt="The Starry Night by Vincent van Gogh"
-        />
-        <Result
-          name="The Starry Night"
-          src="/hero-image.webp"
-          alt="The Starry Night by Vincent van Gogh"
-        />
-        <Result
-          name="The Starry Night"
-          src="/hero-image.webp"
-          alt="The Starry Night by Vincent van Gogh"
-        />
-        <Result
-          name="The Starry Night"
-          src="/hero-image.webp"
-          alt="The Starry Night by Vincent van Gogh"
-        />
-        <Result
-          name="The Starry Night"
-          src="/hero-image.webp"
-          alt="The Starry Night by Vincent van Gogh"
-        />
+        {filteredImages.length > 0 ? (
+          filteredImages.map((image) => (
+            <Result key={image.id} id={image.id} name={image.name} src={image.path} alt={image.name} />
+          ))
+        ) : (
+          <p>No images found</p>
+        )}
       </section>
     </main>
   );

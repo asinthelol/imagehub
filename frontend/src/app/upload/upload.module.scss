@@ -5,3 +5,12 @@
   @include flex;
   column-gap: 3rem;
 }
+
+@media screen and (max-width: $mobile-breakpoint) {
+  #container {
+    flex-direction: column;
+    row-gap: 3rem;
+
+    margin-top: 0rem;
+  }
+}

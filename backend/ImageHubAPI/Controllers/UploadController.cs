@@ -24,9 +24,6 @@ namespace ImageHubAPI.Controllers
             [FromForm] string imageName,
             [FromForm] string imagePath)
         {
-            Console.WriteLine("Received Image Name: " + imageName);
-            Console.WriteLine("Received Image Path: " + imagePath);
-            Console.WriteLine("Received File: " + (file?.FileName ?? "No file"));
             if (file == null || file.Length == 0 || string.IsNullOrWhiteSpace(imageName) || string.IsNullOrWhiteSpace(imagePath))
             {
                 return BadRequest(new { error = "No file uploaded or missing image name." });

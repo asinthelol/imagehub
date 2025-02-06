@@ -22,13 +22,14 @@ export default async function uploadImage(
   formData.append("imagePath", "/");
 
   try {
-    const response = await fetch("http://localhost:5101/api/upload", {
+    const response = await fetch("http://10.0.0.227:3001/api/upload", {
       method: "POST",
       body: formData
     });
 
     if(response.ok) {
       console.log("Image uploaded successfully");
+      window.location.href = "/search";
     }
   } catch (error) {
     console.error("Failed to upload image2", error);

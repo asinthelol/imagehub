@@ -41,7 +41,7 @@ frontend/next-env.d.ts
 
 # visual Studio
 *.vs/
-.idea/
+*.idea/
 *.suo
 *.user
 *.userosscache

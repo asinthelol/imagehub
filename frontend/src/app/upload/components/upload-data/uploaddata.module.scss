@@ -7,7 +7,7 @@
   row-gap: 3rem;
 
   width: 20rem;
-  height: 15rem;
+  height: 20rem;
 
   border-radius: 0.5rem;
   border: thin solid transparent;
@@ -48,4 +48,11 @@
 
 .required { /* The first color in $color-primary gradient */
   outline-color: #5976BA !important;
+}
+
+@media screen and (max-width: $mobile-breakpoint) {
+  #upload-data-container {
+    width: 15rem;
+    height: 15rem;
+  }
 }
