@@ -10,7 +10,7 @@ export default async function uploadImage(
   }
 
   const imageName = textRef.current.value.trim();
-  const file = fileRef.current.files ? fileRef.current.files[0] : null;
+  const file = fileRef.current?.files?.[0];
 
   if (!imageName || !file) {
     return;
@@ -18,21 +18,18 @@ export default async function uploadImage(
 
   const formData = new FormData();
   formData.append("file", file);
-  formData.append("imageData.ImageName", imageName);
-  formData.append("imageData.ImagePath", "/");
+  formData.append("imageName", imageName);
+  formData.append("imagePath", "/");
 
   try {
-    const response = await fetch("http://localhost:5101/api/upload", {
+    const response = await fetch("http://10.0.0.227:3001/api/upload", {
       method: "POST",
       body: formData
     });
 
     if(response.ok) {
-      alert("Image uploaded successfully");
       console.log("Image uploaded successfully");
-    } else {
-      alert("Failed to upload image1");
-      console.error("Failed to upload image1");
+      window.location.href = "/search";
     }
   } catch (error) {
     console.error("Failed to upload image2", error);

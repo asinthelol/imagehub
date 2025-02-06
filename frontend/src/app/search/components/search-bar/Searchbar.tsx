@@ -1,7 +1,15 @@
+
+"use client";
 import styles from "./searchbar.module.scss";
 import "../../../styles/icons.scss";
 
-export default function Searchbar() {
+type SearchBarProps = {
+  searchTerm: string;
+  setSearchTerm: (value: string) => void;
+};
+
+export default function Searchbar({ searchTerm, setSearchTerm }: SearchBarProps) {
+
   return (
     <section id={styles["input-container"]}>
         <span 
@@ -12,7 +20,10 @@ export default function Searchbar() {
         <input
           id={styles["search-input"]}
           type="search"
-          placeholder="Search..." />
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
       </section>
   )
 }

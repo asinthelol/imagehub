@@ -1,29 +1,58 @@
 @use "../../../styles/mixins.scss" as *;
 @use "../../../styles/variables.scss" as *;
+@use "sass:color";
 
 #upload-data-container {
   @include flex(center, center, column);
   row-gap: 3rem;
 
   width: 20rem;
-  height: 15rem;
+  height: 20rem;
 
   border-radius: 0.5rem;
   border: thin solid transparent;
-  outline: solid thin rgba(158, 158, 158, 0.1);
+  outline: solid thin $outline-color;
 
   transition: outline-color $transition-duration ease-in-out;
+
+  background-color: $foreground-color;
 
   #upload-form {
     @include flex(center, center, column);
     row-gap: 1rem;
+    width: 100%;
 
-    #counter {
-      color: $text-color;
+    label {
+      font-size: 1.25rem;
     }
+
+    #title-input {
+      flex: 1;
+
+    font-size: 1.25rem;
+    color: $text-color;
+
+    width: 80%;
+    border-radius: 2rem;
+
+    border: none;
+    padding: 0.5rem 1rem;
+    margin-bottom: 2rem;
+    outline: solid thin $outline-color;
+
+    background-color: $color-secondary;
+
+    }    
   }
 }
 
-.required {
-  outline-color: red !important;
+.required { /* The first color in $color-primary gradient */
+  outline-color: #5976BA !important;
+}
+
+@media screen and (max-width: $mobile-breakpoint) {
+  #upload-data-container {
+    width: 15rem;
+    height: 15rem;
+  }
 }
