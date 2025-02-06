@@ -29,7 +29,10 @@ export default async function uploadImage(
 
     if(response.ok) {
       console.log("Image uploaded successfully");
-      window.location.href = "/search";
+      // go to window.location.href = "/search"; after 500ms
+      setTimeout(() => {
+        window.location.href = "/search";
+      }, 500);
     }
   } catch (error) {
     console.error("Failed to upload image2", error);
