@@ -26,7 +26,7 @@ npm run create:backend
 ```bash
 npm run go
 ```
-Navigate to http://localhost:3000/.
+Navigate to http://localhost:3000/
 
 ## How To Use
 
