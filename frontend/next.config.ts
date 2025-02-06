@@ -4,9 +4,15 @@ const nextConfig: NextConfig = {
   /* config options here */
 
   images: {
-    domains: [
-      "10.0.0.227",
-      "localhost",
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '10.0.0.227',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
     ], // Change for production
   },
 };
