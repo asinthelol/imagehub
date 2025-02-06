@@ -22,7 +22,7 @@ export default async function uploadImage(
   formData.append("imagePath", "/");
 
   try {
-    const response = await fetch("http://10.0.0.227:3001/api/upload", {
+    const response = await fetch("http://localhost:5000/api/upload", {
       method: "POST",
       body: formData
     });

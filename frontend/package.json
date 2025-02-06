@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "go": "concurrently \"npm run dev\" \"npm run start:backend\"",
-    "start:backend": "cd ../backend/imagehubapi && dotnet run"
+    "start:backend": "cd ../backend/imagehubapi && dotnet run",
+    "create:backend": "cd ../backend/imagehubapi && dotnet ef migrations add InitialCreate && dotnet ef database update"
   },
   "dependencies": {
     "concurrently": "^9.1.2",

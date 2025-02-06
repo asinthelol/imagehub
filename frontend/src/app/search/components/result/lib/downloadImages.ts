@@ -6,7 +6,7 @@ type downloadImagesProps = {
 export function downloadImages() {
   const downloadImage = async ({name, src}: downloadImagesProps) => {
     try {
-      const response = await fetch(`http://10.0.0.227:3001${src}`);
+      const response = await fetch(`http://localhost:5000${src}`);
       if (!response.ok) throw new Error("Failed to fetch image");
 
       const blob = await response.blob();

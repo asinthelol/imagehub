@@ -50,6 +50,7 @@ frontend/next-env.d.ts
 # build/binary files
 backend/ImageHubAPI/bin/
 backend/ImageHubAPI/obj/
+backend/ImageHubAPI/migrations/
 *.dll
 *.exe
 *.log

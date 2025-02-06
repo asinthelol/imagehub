@@ -9,18 +9,24 @@ git clone https://github.com/asinthelol/imagehub.git
 cd imagehub/frontend
 ```
 
-2. Install the dependencies:
+2. Install the dependencies
 
 ```bash
 npm install
 ```
 
-5. Run the app:
+3. Create backend
+
+```bash
+npm run create:backend
+```
+
+4. Run the app
 
 ```bash
 npm run go
 ```
-Navigate to your network host.
+Navigate to http://localhost:3000/.
 
 ## How To Use
 

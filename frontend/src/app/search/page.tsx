@@ -15,11 +15,18 @@ export default function Page() {
   const [images, setImages] = useState<Image[]>([]);
   const [filteredImages, setFilteredImages] = useState<Image[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [shouldFetch, setShouldFetch] = useState<boolean>(true);
 
   useEffect(() => {
     const loadImages = async () => {
+      if(!shouldFetch) return;
+
       const newImages = await fetchImages();
       setImages(newImages);
+
+      if (newImages.length > 0) {
+        setShouldFetch(false);
+      }
     };
 
     loadImages();
@@ -49,7 +56,7 @@ export default function Page() {
             <Result key={image.id} id={image.id} name={image.name} src={image.path} alt={image.name} />
           ))
         ) : (
-          <p>No images found</p>
+          <></>
         )}
       </section>
     </main>
