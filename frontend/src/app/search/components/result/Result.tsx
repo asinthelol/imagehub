@@ -38,7 +38,7 @@ export default function Result({ id, name, src, alt }: DataProps) {
       </div>
       <Image
         className={styles["result-image"]}
-        src={`http://10.0.0.227:3001${src}`}
+        src={`http://localhost:5000${src}`}
         alt={alt}
         width={320}
         height={200}
