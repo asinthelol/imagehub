@@ -21,7 +21,6 @@ frontend/build
 # misc
 .DS_Store
 *.pem
-backend/ImageHubAPI/wwwroot
 
 # debug
 npm-debug.log*
