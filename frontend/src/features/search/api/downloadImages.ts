@@ -20,7 +20,7 @@ export function downloadImages() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
     } catch (error) {
-      console.error("Error downloading image:", error);
+      console.error("Error downloading image: ", error);
     }
   };
 

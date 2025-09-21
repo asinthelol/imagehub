@@ -12,7 +12,15 @@ export default async function uploadImage(
   const imageName = textRef.current.value.trim();
   const file = fileRef.current?.files?.[0];
 
-  if (!imageName || !file) {
+  if (!imageName) {
+    alert("Please provide an image name.");
+    textRef.current.focus();
+    return;
+  }
+
+  if (!file) {
+    alert("Please select a file to upload.");
+    fileRef.current.focus();
     return;
   }
 
@@ -24,6 +32,7 @@ export default async function uploadImage(
   try {
     const response = await fetch("http://localhost:5000/api/upload", {
       method: "POST",
+      credentials: 'include',
       body: formData
     });
 
@@ -33,5 +42,6 @@ export default async function uploadImage(
     }
   } catch (error) {
     console.error("Failed to upload image2", error);
+    alert("An error occurred while uploading the image.");
   }
 }

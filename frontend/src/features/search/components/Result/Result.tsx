@@ -1,8 +1,7 @@
 import Image from "next/image";
 import styles from "./result.module.scss";
-import "../../../styles/icons.scss";
-import { deleteImages } from "./lib/deleteImages";
-import { downloadImages } from './lib/downloadImages';
+import { deleteImages } from "@/features/search/api/deleteImages";
+import { downloadImages } from '@/features/search/api/downloadImages';
 
 type DataProps = {
   id: number;

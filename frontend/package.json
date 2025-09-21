@@ -12,8 +12,10 @@
     "create:backend": "cd ../backend/imagehubapi && dotnet ef migrations add InitialCreate && dotnet ef database update"
   },
   "dependencies": {
+    "@microsoft/signalr": "^9.0.6",
     "concurrently": "^9.1.2",
-    "next": "15.1.6",
+    "material-symbols": "^0.35.2",
+    "next": "^15.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

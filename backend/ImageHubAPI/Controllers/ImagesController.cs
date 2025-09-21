@@ -2,6 +2,8 @@
 using ImageHubAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
+using ImageHubAPI.Hubs;
 
 namespace ImageHubAPI.Controllers
 {
@@ -10,10 +12,12 @@ namespace ImageHubAPI.Controllers
     public class ImagesController : ControllerBase
     {
         private readonly APIContext _context;
+        private readonly IHubContext<ImageHub> _hubContext;
 
-        public ImagesController(APIContext context)
+        public ImagesController(APIContext context, IHubContext<ImageHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -61,6 +65,7 @@ namespace ImageHubAPI.Controllers
 
             _context.Images.Remove(image);
             await _context.SaveChangesAsync();
+            await _hubContext.Clients.All.SendAsync("ImagesUpdated");
 
             return Ok(new { message = "Image deleted successfully." });
         }

@@ -1,9 +1,8 @@
 "use client";
 import { useState } from "react";
-import styles from "./uploadfile.module.scss";
-import "../../../styles/icons.scss";
+import styles from "./fileselect.module.scss";
 
-export default function UploadFile({ fileRef }: { fileRef: React.RefObject<HTMLInputElement> }) {
+export default function FileSelect({ fileRef }: { fileRef: React.RefObject<HTMLInputElement> }) {
   const [filePreview, setFilePreview] = useState<string | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using ImageHubAPI.Models;
 using ImageHubAPI.Data;
+using ImageHubAPI.Hubs;
 
 namespace ImageHubAPI.Controllers
 {
@@ -10,10 +12,12 @@ namespace ImageHubAPI.Controllers
     public class UploadController : ControllerBase
     {
         private readonly APIContext _context;
+        private readonly IHubContext<ImageHub> _hubContext;
 
-        public UploadController(APIContext context)
+        public UploadController(APIContext context, IHubContext<ImageHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         // Create a new image
@@ -29,14 +33,20 @@ namespace ImageHubAPI.Controllers
                 return BadRequest(new { error = "No file uploaded or missing image name." });
             }
 
+            var sanitizedFileName = imageName.Replace(" ", "_");
+
+        
             var image = new Image
             {
-                Name = imageName,
+                Name = sanitizedFileName,
                 Path = imagePath
             };
 
             _context.Images.Add(image);
             await _context.SaveChangesAsync();
+
+            // Notify all connected clients that images have been updated
+            await _hubContext.Clients.All.SendAsync("ImagesUpdated");
 
             var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads");
             if (!Directory.Exists(uploadsFolder))

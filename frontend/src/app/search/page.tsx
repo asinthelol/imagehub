@@ -1,9 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import styles from "./search.module.scss";
-import Result from "./components/result/Result";
-import SearchBar from "./components/search-bar/Searchbar";
-import { fetchImages } from "./lib/fetchImages";
+import Result from "@/features/search/components/Result/Result";
+import SearchBar from "@/features/search/components/Searchbar/Searchbar";
+import { fetchImages } from "@/features/search/api/fetchImages";
+import * as signalR from "@microsoft/signalr";
 
 type Image = {
   id: number;
@@ -15,32 +16,40 @@ export default function Page() {
   const [images, setImages] = useState<Image[]>([]);
   const [filteredImages, setFilteredImages] = useState<Image[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [shouldFetch, setShouldFetch] = useState<boolean>(true);
 
-  useEffect(() => {
-    const loadImages = async () => {
-      if(!shouldFetch) return;
 
-      const newImages = await fetchImages();
-      setImages(newImages);
 
-      if (newImages.length > 0) {
-        setShouldFetch(false);
-      }
-    };
-
-    loadImages();
-
-    const interval = setInterval(loadImages, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
+  // Filter useEffect
   useEffect(() => {
     const results = images.filter((image) =>
       image.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredImages(results);
   }, [searchTerm, images]);
+
+  // SignalR useEffect
+  useEffect(() => {
+    const loadImages = async () => {
+      const newImages = await fetchImages();
+      setImages(newImages);
+    };
+
+    loadImages(); // Initial fetch on mount
+
+    const connection = new signalR.HubConnectionBuilder()
+      .withUrl("http://localhost:5000/hubs/images")
+      .withAutomaticReconnect()
+      .build();
+    
+    connection.start().then(() => {
+      console.log("Connected to SignalR hub");
+    });
+
+    connection.on("ImagesUpdated", () => {
+      console.log("Images updated, fetching new images...");
+      fetchImages().then((newImages) => setImages(newImages));
+    });
+  }, []);
 
   return (
     <main id={styles.container}>

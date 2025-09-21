@@ -5,7 +5,7 @@ export async function fetchImages() {
 
     return await response.json();
   } catch (error) {
-    console.error("Error fetching images:", error);
+    console.error("Error fetching images: ", error);
     return [];
   }
 }

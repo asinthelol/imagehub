@@ -1,7 +1,6 @@
 
 "use client";
 import styles from "./searchbar.module.scss";
-import "../../../styles/icons.scss";
 
 type SearchBarProps = {
   searchTerm: string;

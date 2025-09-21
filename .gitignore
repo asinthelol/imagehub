@@ -69,7 +69,7 @@ backend/ImageHubAPI/obj/.config
 
 
 # db
-*.db
+*.db*
 *.sqlite
 *.sqlite3
 
@@ -98,3 +98,6 @@ backend/ImageHubAPI/appsettings.Production.json
 backend/ImageHubAPI/secrets.json
 backend/ImageHubAPI/*.config
 backend/ImageHubAPI/Properties/launchSettings.json
+
+# images
+wwwroot/

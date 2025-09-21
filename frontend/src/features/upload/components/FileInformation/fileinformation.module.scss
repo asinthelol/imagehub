@@ -1,5 +1,5 @@
-@use "../../../styles/mixins.scss" as *;
-@use "../../../styles/variables.scss" as *;
+@use "@/shared/styles/variables.scss" as *;
+@use "@/shared/styles/mixins.scss" as *;
 @use "sass:color";
 
 #upload-data-container {

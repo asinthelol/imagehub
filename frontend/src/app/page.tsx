@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import styles from "./page.module.scss";
-import Button from "./components/button/Button";
+import Button from "@/shared/components/button/Button";
 
 export const metadata: Metadata = {
   title: "Home – ImageHub",
@@ -25,7 +25,10 @@ export default function Page() {
             id={styles["hero-image"]}
             src="/hero-image.webp"
             fill
-            alt="hero image" />
+            sizes="(max-width: 768px) 224px, (max-width: 1200px) 324px, 360px"
+            alt="hero image" 
+            priority
+            />
         </div>
       </section>
     </main>

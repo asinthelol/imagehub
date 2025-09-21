@@ -1,9 +1,9 @@
 "use client";
 import { Inter } from "next/font/google";
 import { notFound } from "next/navigation";
-import Navbar from "./components/navbar/Navbar";
-import Footer from "./components/footer/Footer";
-import "./styles/globals.scss";
+import Navbar from "@/shared/components/navbar/Navbar";
+import Footer from "@/shared/components/footer/Footer";
+import "@/shared/styles/globals.scss";
 import "./layout.module.scss";
 
 const inter = Inter({

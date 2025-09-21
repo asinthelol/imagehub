@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
-import uploadImage from "../../lib/uploadImage";
+import uploadImage from "@/features/upload/api/uploadImage";
 
-import styles from "./uploaddata.module.scss";
-import Button from "../../../components/button/Button";
+import styles from "./fileinformation.module.scss";
+import Button from "@/shared/components/button/Button";
 
-export default function UploadData({
+export default function FileInformation({
   textRef,
   fileRef,
 }: {
@@ -26,7 +26,7 @@ export default function UploadData({
         <form id={styles["upload-form"]} onSubmit={(e) => uploadImage(e, textRef, fileRef)}>
 
           <label htmlFor="title">Title</label>
-          <input ref={textRef} id={styles["title-input"]} type="text" name="title" placeholder="Title" onChange={handleTextChange} required />
+          <input ref={textRef} id={styles["title-input"]} type="text" name="title" placeholder="Title" onChange={handleTextChange} />
 
           <Button text="Upload" href="" style="" type="submit" />
         </form>
