@@ -101,3 +101,10 @@ backend/ImageHubAPI/Properties/launchSettings.json
 
 # images
 wwwroot/
+
+
+# spring backend
+backend-spring/uploads/
+backend-spring/src/main/resources/application-local.properties
+backend-spring/src/main/resources/application-*.local.properties
+backend-spring/target/
