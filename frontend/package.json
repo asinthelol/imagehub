@@ -7,12 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "go": "concurrently \"npm run dev\" \"npm run start:backend\"",
-    "start:backend": "cd ../backend/imagehubapi && dotnet run",
-    "create:backend": "cd ../backend/imagehubapi && dotnet ef migrations add InitialCreate && dotnet ef database update"
+    "go": "concurrently \"npm run dev\" \"npm run start:backend:spring\"",
+    "start:backend": "npm run start:backend:spring",
+    "start:backend:spring": "cd ../backend-spring && docker compose up -d && mvnw spring-boot:run",
+    "start:backend:dotnet": "cd ../backend/imagehubapi && dotnet run",
+    "create:backend:dotnet": "cd ../backend/imagehubapi && dotnet ef migrations add InitialCreate && dotnet ef database update"
   },
   "dependencies": {
-    "@microsoft/signalr": "^9.0.6",
+    "@stomp/stompjs": "^7.3.0",
     "concurrently": "^9.1.2",
     "material-symbols": "^0.35.2",
     "next": "^15.5.3",
