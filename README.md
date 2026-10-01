@@ -42,7 +42,7 @@ docker compose up -d      # PostgreSQL (host port 5432) and Kafka (host port 909
 ./mvnw spring-boot:run    # API on http://localhost:5000
 ```
 
-Postgres is mapped to host port 5432 so it doesn't clash with a locally installed PostgreSQL on 5432.
+If you already have PostgreSQL running locally on port 5432, stop it, or change the host port in `docker-compose.yml` and the datasource URL in `application.properties`.
 
 ### Option B: .NET
 
