@@ -4,7 +4,7 @@ import styles from "./search.module.scss";
 import Result from "@/features/search/components/Result/Result";
 import SearchBar from "@/features/search/components/Searchbar/Searchbar";
 import { fetchImages } from "@/features/search/api/fetchImages";
-import * as signalR from "@microsoft/signalr";
+import { Client } from "@stomp/stompjs";
 
 type Image = {
   id: number;
@@ -27,7 +27,7 @@ export default function Page() {
     setFilteredImages(results);
   }, [searchTerm, images]);
 
-  // SignalR useEffect
+  // WebSocket (STOMP) useEffect
   useEffect(() => {
     const loadImages = async () => {
       const newImages = await fetchImages();
@@ -36,19 +36,23 @@ export default function Page() {
 
     loadImages(); // Initial fetch on mount
 
-    const connection = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:5000/hubs/images")
-      .withAutomaticReconnect()
-      .build();
-    
-    connection.start().then(() => {
-      console.log("Connected to SignalR hub");
+    const client = new Client({
+      brokerURL: "ws://localhost:5000/ws",
+      reconnectDelay: 5000,
+      onConnect: () => {
+        console.log("Connected to WebSocket");
+        client.subscribe("/topic/images", () => {
+          console.log("Images updated, fetching new images...");
+          loadImages();
+        });
+      },
     });
 
-    connection.on("ImagesUpdated", () => {
-      console.log("Images updated, fetching new images...");
-      fetchImages().then((newImages) => setImages(newImages));
-    });
+    client.activate();
+
+    return () => {
+      client.deactivate();
+    };
   }, []);
 
   return (
