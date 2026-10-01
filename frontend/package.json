@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "go": "concurrently \"npm run dev\" \"npm run start:backend\"",
-    "start:backend": "cd ../backend/imagehubapi && dotnet run",
-    "create:backend": "cd ../backend/imagehubapi && dotnet ef migrations add InitialCreate && dotnet ef database update"
+    "go": "concurrently \"npm run dev\" \"npm run start:backend:spring\"",
+    "start:backend": "npm run start:backend:spring",
+    "start:backend:spring": "cd ../backend-spring && docker compose up -d && mvnw spring-boot:run",
+    "start:backend:dotnet": "cd ../backend/imagehubapi && dotnet run",
+    "create:backend:dotnet": "cd ../backend/imagehubapi && dotnet ef migrations add InitialCreate && dotnet ef database update"
   },
   "dependencies": {
     "@stomp/stompjs": "^7.3.0",
