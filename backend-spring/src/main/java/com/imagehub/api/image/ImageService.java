@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -39,23 +40,29 @@ public class ImageService {
     }
 
     public Image upload(MultipartFile file, String name, Integer width, Integer height) {
-        Image created = new Image(name.replace(" ", "_"), "/");
-        created.setDimensions(width, height);
-
-        // Save first so the database assigns the id, which becomes the file name.
-        Image image = repository.save(created);
+        // A random file name means a URL is never reused.
+        // (a switch between backends would put a new picture at an old URL)
+        String fileName = UUID.randomUUID() + extensionOf(file.getOriginalFilename());
+        Path target = uploadDir.resolve(fileName);
 
         try {
             Files.createDirectories(uploadDir);
-            String fileName = image.getId() + extensionOf(file.getOriginalFilename());
-            Files.copy(file.getInputStream(), uploadDir.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
-            image.setPath("/uploads/" + fileName);
+            Files.copy(file.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            repository.delete(image);
             throw new UncheckedIOException(e);
         }
 
-        image = repository.save(image);
+        Image created = new Image(name.replace(" ", "_"), "/uploads/" + fileName);
+        created.setDimensions(width, height);
+
+        Image image;
+        try {
+            image = repository.save(created);
+        } catch (RuntimeException e) {
+            deleteQuietly(target);
+            throw e;
+        }
+
         events.publish(new ImageEvent(ImageEvent.Type.UPLOADED, image.getId()));
         return image;
     }
@@ -76,6 +83,13 @@ public class ImageService {
         repository.delete(found.get());
         events.publish(new ImageEvent(ImageEvent.Type.DELETED, id));
         return true;
+    }
+
+    private static void deleteQuietly(Path file) {
+        try {
+            Files.deleteIfExists(file);
+        } catch (IOException ignored) {
+        }
     }
 
     private static String extensionOf(String originalName) {
