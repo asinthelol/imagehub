@@ -38,9 +38,12 @@ public class ImageService {
         return repository.findById(id);
     }
 
-    public Image upload(MultipartFile file, String name) {
+    public Image upload(MultipartFile file, String name, Integer width, Integer height) {
+        Image created = new Image(name.replace(" ", "_"), "/");
+        created.setDimensions(width, height);
+
         // Save first so the database assigns the id, which becomes the file name.
-        Image image = repository.save(new Image(name.replace(" ", "_"), "/"));
+        Image image = repository.save(created);
 
         try {
             Files.createDirectories(uploadDir);
