@@ -26,7 +26,9 @@ namespace ImageHubAPI.Controllers
         public async Task<ActionResult<Image>> PostImage(
             [FromForm] IFormFile file,
             [FromForm] string imageName,
-            [FromForm] string imagePath)
+            [FromForm] string imagePath,
+            [FromForm] int? width,
+            [FromForm] int? height)
         {
             if (file == null || file.Length == 0 || string.IsNullOrWhiteSpace(imageName) || string.IsNullOrWhiteSpace(imagePath))
             {
@@ -36,10 +38,15 @@ namespace ImageHubAPI.Controllers
             var sanitizedFileName = imageName.Replace(" ", "_");
 
         
+            // Only keep the size if both values look sane; otherwise leave them null.
+            var hasSize = width is > 0 and <= 100_000 && height is > 0 and <= 100_000;
+
             var image = new Image
             {
                 Name = sanitizedFileName,
-                Path = imagePath
+                Path = imagePath,
+                Width = hasSize ? width : null,
+                Height = hasSize ? height : null
             };
 
             _context.Images.Add(image);
