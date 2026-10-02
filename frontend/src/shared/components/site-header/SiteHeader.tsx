@@ -1,25 +1,37 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Logo from "@/shared/components/logo/Logo";
-import Button from "@/shared/components/button/Button";
 import ThemeToggle from "@/shared/components/theme-toggle/ThemeToggle";
 import styles from "./site-header.module.scss";
 
-/**
- * Header for the landing page. Browse and Upload have their own (currently plain) layout.
- * `overlay` floats it transparently over a full-bleed photo (always white text there).
- */
+const LINKS = [
+  { href: "/search", label: "Browse" },
+  { href: "/upload", label: "Upload" },
+];
+
+// transparent over the landing page, everywhere else it has an underline.
 export default function SiteHeader({ overlay = false }: { overlay?: boolean }) {
+  const pathname = usePathname();
+
   return (
     <header className={`${styles.header} ${overlay ? styles.overlay : ""}`}>
       <Logo />
       <nav className={styles.nav} aria-label="Primary">
-        <Link href="/upload" className={styles.link}>
-          Upload
-        </Link>
+        {LINKS.map(({ href, label }) => {
+          const active = pathname.startsWith(href);
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`${styles.link} ${active ? styles.active : ""}`}
+              aria-current={active ? "page" : undefined}
+            >
+              {label}
+            </Link>
+          );
+        })}
         <ThemeToggle />
-        <Button href="/search" variant="solid">
-          Explore
-        </Button>
       </nav>
     </header>
   );

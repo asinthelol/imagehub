@@ -1,0 +1,55 @@
+// TEMPORARY scaffold for the parts of Browse/Upload that are waiting for their redesign.
+
+.page {
+  h1,
+  h2,
+  h3,
+  p,
+  ul,
+  form {
+    margin-block: 0.75rem;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  button,
+  input {
+    border: 1px solid currentColor;
+    padding: 0.3rem 0.6rem;
+  }
+
+  input {
+    background: transparent;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
+.dialog {
+  padding: 0; /* padding lives on the inner div so a click on the dialog itself is a backdrop click */
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid currentColor;
+
+  > div {
+    padding: 1rem;
+  }
+
+  h2,
+  p {
+    margin-block: 0.5rem;
+  }
+
+  button {
+    border: 1px solid currentColor;
+    padding: 0.3rem 0.6rem;
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
