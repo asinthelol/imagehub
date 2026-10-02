@@ -79,6 +79,7 @@ Navigate to http://localhost:3000/
 - Download
 - Delete
 - Live updates across open tabs
+- Light and dark themes (follows your OS, with a manual toggle)
 
 ## Built With
 

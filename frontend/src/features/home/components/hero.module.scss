@@ -1,0 +1,217 @@
+@use "@/shared/styles/variables.scss" as *;
+@use "@/shared/styles/mixins.scss" as *;
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  container-type: size; // lets the stage size itself from the hero with cqw/cqh units
+
+  display: flex;
+  align-items: center;
+  height: max(100dvh, 36rem);
+  background-color: #0a0a1f;
+
+  // Over a photo everything is light, whatever the theme.
+  --text: #ffffff;
+  --text-muted: rgb(255 255 255 / 0.82);
+  --border: rgb(255 255 255 / 0.3);
+  --solid-bg: #ffffff;
+  --solid-fg: #0a0a1f;
+  color: #fff;
+}
+
+/*
+ * The stage holds the photo, lines and ring, and has the photo's own aspect ratio, so
+ * percentages inside it always land on the same spot of the picture.
+ * --fx/--fy: where the subject's face sits in the photo. --fr: ring radius.
+ */
+.stage {
+  --fx: 69.5%;
+  --fy: 42.5%;
+  --fr: 10cqw;
+  --line: rgb(255 255 255 / 0.5);
+  --line-soft: rgb(255 255 255 / 0.22);
+
+  position: absolute;
+  z-index: -2;
+  left: 50%;
+  top: 50%;
+  width: max(100cqw, 100cqh * 16 / 9);
+  aspect-ratio: 16 / 9;
+  transform: translate(-50%, -50%);
+  container-type: inline-size;
+
+  picture {
+    display: contents;
+  }
+}
+
+.photo {
+  object-fit: cover;
+}
+
+/* Lines go through the face, cut away inside the ring so they appear to lead into it. */
+.lines {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(var(--line), var(--line)) var(--fx) 0 / 1px 100% no-repeat,
+    linear-gradient(var(--line), var(--line)) 0 var(--fy) / 100% 1px no-repeat,
+    linear-gradient(var(--line-soft), var(--line-soft)) 33% 0 / 1px 100% no-repeat,
+    linear-gradient(var(--line-soft), var(--line-soft)) 0 82% / 100% 1px no-repeat;
+
+  -webkit-mask-image: radial-gradient(circle at var(--fx) var(--fy), transparent var(--fr), #000 calc(var(--fr) + 1px));
+  mask-image: radial-gradient(circle at var(--fx) var(--fy), transparent var(--fr), #000 calc(var(--fr) + 1px));
+}
+
+.ring {
+  position: absolute;
+  left: var(--fx);
+  top: var(--fy);
+  width: calc(var(--fr) * 2);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+
+  border: 1px solid rgb(255 255 255 / 0.75);
+  border-radius: 50%;
+}
+
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(10 10 31 / 0.9) 0%, rgb(10 10 31 / 0.62) 30%, rgb(10 10 31 / 0.12) 58%, transparent 75%),
+    linear-gradient(to bottom, rgb(10 10 31 / 0.55) 0%, transparent 22%),
+    linear-gradient(to top, rgb(10 10 31 / 0.55) 0%, transparent 28%);
+}
+
+.content {
+  @include flex(center, flex-start, column);
+  gap: 1.4rem;
+  max-width: 36rem;
+  padding: 5.5rem 0 3rem clamp(1.25rem, 4vw, 3.5rem);
+
+  h1 {
+    font-size: clamp(3rem, 5.6vw, 5.5rem);
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+
+    em {
+      font-style: italic;
+    }
+  }
+
+  p {
+    max-width: 24rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+}
+
+.actions {
+  @include flex(flex-start, center);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.link {
+  @include focus-ring;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--border);
+
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+
+  transition: color var(--duration) var(--ease), border-color var(--duration) var(--ease);
+
+  &:hover {
+    color: #fff;
+    border-color: #fff;
+  }
+}
+
+.credit {
+  position: absolute;
+  right: clamp(1.25rem, 4vw, 3.5rem);
+  bottom: 1.25rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/*
+ * Portrait screens: swap to the tall photo, which fills the whole screen with the text stacked
+ * over its lower part. The stage is sized to cover the screen and shifted so the face lands on
+ * the horizontal center and about 40% down (as far as covering the screen allows).
+ */
+@media screen and (max-aspect-ratio: 1 / 1) {
+  .hero {
+    align-items: flex-end;
+    --stage-w: max(100cqh * 2 / 3, 118cqw); /* hero photo is 2:3 aspect ratio */
+  }
+
+  .content {
+    max-width: none;
+    padding: 5.5rem clamp(1.25rem, 4vw, 3.5rem) 3.5rem;
+  }
+
+  .stage {
+    --fx: 56%;
+    --fy: 47%;
+    --fr: 9cqw;
+
+    aspect-ratio: 2 / 3;
+    width: var(--stage-w);
+    left: 50%;
+    /* face ~40% down the screen */
+    top: clamp(100cqh - var(--stage-w) * 1.5, 40cqh - var(--stage-w) * 0.705, 0px);
+    transform: translateX(-56%);
+  }
+
+  .scrim {
+    background:
+      linear-gradient(to top, rgb(10 10 31 / 0.88) 0%, rgb(10 10 31 / 0.6) 30%, transparent 56%),
+      linear-gradient(to bottom, rgb(10 10 31 / 0.55) 0%, transparent 22%);
+  }
+
+  .content h1 {
+    font-size: clamp(2.75rem, 11vw, 4rem);
+  }
+
+  .credit {
+    display: none;
+  }
+}
+
+/* Landscape phones: very little height, so tightened everything to keep the buttons on screen. */
+@media screen and (max-height: 34rem) and (min-aspect-ratio: 1 / 1) {
+  .hero {
+    height: max(100dvh, 22rem);
+  }
+
+  .content {
+    gap: 0.75rem;
+    padding-top: 4.25rem;
+    padding-bottom: 1.25rem;
+
+    h1 {
+      font-size: 2.25rem;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+  }
+
+  .actions {
+    margin-top: 0;
+  }
+}
