@@ -5,6 +5,8 @@ export type ImageItem = {
   // Pixel size. Null for images uploaded before dimensions were tracked.
   width?: number | null;
   height?: number | null;
+  // Small WebP made by the thumbnail service (Spring backend only). Null until it exists.
+  thumbPath?: string | null;
 };
 
 // The backend stores names with underscores

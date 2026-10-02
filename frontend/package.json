@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "go": "concurrently \"npm run dev\" \"npm run start:backend:spring\"",
+    "go": "concurrently -n web,api,thumbs \"npm run dev\" \"npm run start:backend:spring\" \"npm run start:thumbnailer\"",
     "start:backend": "npm run start:backend:spring",
     "start:backend:spring": "node scripts/start-spring.mjs",
+    "start:thumbnailer": "node scripts/start-thumbnailer.mjs",
     "start:backend:dotnet": "cd ../backend/imagehubapi && dotnet run",
     "create:backend:dotnet": "cd ../backend/imagehubapi && dotnet ef migrations add InitialCreate && dotnet ef database update"
   },

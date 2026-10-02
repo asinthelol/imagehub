@@ -26,9 +26,10 @@ export default function ImageCard({ image, onOpen, onDownload, onDelete }: Props
         aria-label={`View ${title}`}
       >
         <Image
-          src={imageUrl(image.path)}
+          src={imageUrl(image.thumbPath ?? image.path)}
           alt={title}
           fill
+          unoptimized={Boolean(image.thumbPath)}
           sizes="(max-width: 45rem) 50vw, (max-width: 80rem) 25vw, 20rem"
           className={styles.image}
         />
