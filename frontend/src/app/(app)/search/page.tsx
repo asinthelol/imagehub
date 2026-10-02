@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import BrowseView from "@/features/search/components/BrowseView";
+import BrowseView from "@/features/search/components/BrowseView/BrowseView";
 
 export const metadata: Metadata = {
   title: "Browse",

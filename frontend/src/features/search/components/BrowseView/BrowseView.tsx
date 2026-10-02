@@ -3,13 +3,15 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useToast } from "@/shared/components/toast/Toast";
-import { displayName, type ImageItem } from "@/shared/types";
-import { useImages } from "../hooks/useImages";
-import { deleteImage } from "../api/deleteImage";
-import { downloadImage } from "../api/downloadImage";
-import ImageCard from "./ImageCard";
-import Lightbox from "./Lightbox";
-import ConfirmDialog from "./ConfirmDialog";
+import { aspectRatio, displayName, type ImageItem } from "@/shared/types";
+import { useImages } from "../../hooks/useImages";
+import { deleteImage } from "../../api/deleteImage";
+import { downloadImage } from "../../api/downloadImage";
+import ImageCard, { CAPTION_HEIGHT } from "../ImageCard/ImageCard";
+import MasonryGrid from "../MasonryGrid/MasonryGrid";
+import Lightbox from "../Lightbox/Lightbox";
+import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
+import styles from "./browse-view.module.scss";
 
 export default function BrowseView() {
   // Search lives in the URL (?q=).
@@ -86,41 +88,56 @@ export default function BrowseView() {
     body = <p>No matches for &ldquo;{query}&rdquo;.</p>;
   } else {
     body = (
-      <ul>
-        {visible.map((image, index) => (
-          <li key={image.id}>
-            <ImageCard
-              image={image}
-              onOpen={() => setOpenIndex(index)}
-              onDownload={() => handleDownload(image)}
-              onDelete={() => setPendingDelete(image)}
-            />
-          </li>
-        ))}
-      </ul>
+      <MasonryGrid
+        items={visible}
+        getKey={(image) => image.id}
+        getAspect={aspectRatio}
+        captionHeight={CAPTION_HEIGHT}
+        renderItem={(image, index) => (
+          <ImageCard
+            image={image}
+            onOpen={() => setOpenIndex(index)}
+            onDownload={() => handleDownload(image)}
+            onDelete={() => setPendingDelete(image)}
+          />
+        )}
+      />
     );
   }
 
   return (
     <>
-      <h1>{query ? `Results for “${query}”` : "Browse"}</h1>
+      <div className={styles.head}>
+        <div>
+          <h1 className={styles.title}>
+            {query ? (
+              <>
+                Results for <em>“{q.trim()}”</em>
+              </>
+            ) : (
+              <>
+                Your <em>collection</em>
+              </>
+            )}
+          </h1>
+          {images && images.length > 0 && (
+            <p className={styles.count}>
+              {visible.length} {visible.length === 1 ? "image" : "images"}
+            </p>
+          )}
+        </div>
 
-      <form role="search" onSubmit={(e) => e.preventDefault()}>
-        <input
-          type="search"
-          value={search}
-          onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Search artwork"
-          aria-label="Search artwork"
-          autoComplete="off"
-        />
-      </form>
-
-      {images && images.length > 0 && (
-        <p>
-          {visible.length} {visible.length === 1 ? "image" : "images"}
-        </p>
-      )}
+        <form className={styles.search} role="search" onSubmit={(e) => e.preventDefault()}>
+          <input
+            type="search"
+            value={search}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search"
+            aria-label="Search artwork"
+            autoComplete="off"
+          />
+        </form>
+      </div>
 
       {body}
 

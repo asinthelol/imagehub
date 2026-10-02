@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import plain from "@/shared/styles/plain.module.scss"; // temporary, until the dialog is designed
 
 type Props = {
   open: boolean;
@@ -24,6 +25,7 @@ export default function ConfirmDialog({ open, title, message, confirmLabel, onCo
   return (
     <dialog
       ref={ref}
+      className={plain.dialog}
       onClose={onCancel}
       onClick={(e) => e.target === ref.current && onCancel()}
       aria-labelledby="confirm-title"

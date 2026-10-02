@@ -2,6 +2,7 @@
 import { useEffect, useRef } from "react";
 import { imageUrl } from "@/shared/config";
 import { displayName, type ImageItem } from "@/shared/types";
+import plain from "@/shared/styles/plain.module.scss"; // temporary, until the lightbox is designed
 
 type Props = {
   images: ImageItem[];
@@ -33,6 +34,7 @@ export default function Lightbox({ images, index, onIndexChange, onClose, onDown
   return (
     <dialog
       ref={ref}
+      className={plain.dialog}
       onClose={onClose}
       onClick={(e) => e.target === ref.current && onClose()}
       onKeyDown={(e) => {
