@@ -22,7 +22,8 @@
 
 .link {
   @include focus-ring;
-  padding-bottom: 0.2rem;
+  padding: 0.35rem 0 0.2rem; // taller hit area
+  margin-top: -0.35rem;
   border-bottom: 1px solid transparent;
 
   font-size: 0.8rem;
