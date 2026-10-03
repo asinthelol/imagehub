@@ -17,6 +17,24 @@
 
 .image {
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+
+  &.loaded {
+    opacity: 1;
+  }
+}
+
+/* Tiles rise and fade in one after another on load. */
+.enter {
+  animation: tile-in 0.6s var(--ease) both;
+}
+
+@keyframes tile-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.9rem);
+  }
 }
 
 .caption {
