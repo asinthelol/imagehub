@@ -1,7 +1,6 @@
 @use "@/shared/styles/variables.scss" as *;
 @use "@/shared/styles/mixins.scss" as *;
 
-/* Always dark, like the landing hero: the picture is the star, whatever the theme. */
 .lightbox {
   width: 100vw;
   height: 100vh;
@@ -12,7 +11,7 @@
   padding: 0;
   overflow: hidden;
 
-  background: transparent;
+  background-color: #05051a;
 
   --text: #ffffff;
   --text-muted: rgb(255 255 255 / 0.75);
@@ -23,7 +22,7 @@
   --solid-fg: #0a0a1f;
   color: #ffffff;
 
-  /* Opaque: with anything less, the page's header and grid ghost through behind the controls. */
+  // with anything less, the page's header and grid ghost through behind the controls.
   &::backdrop {
     background-color: #05051a;
   }
