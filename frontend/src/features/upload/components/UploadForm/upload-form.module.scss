@@ -1,0 +1,373 @@
+@use "@/shared/styles/variables.scss" as *;
+@use "@/shared/styles/mixins.scss" as *;
+
+// Desktop: headline and fields on the left, the picture frame on the right. Phone: they stack.
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "intro stage"
+    "controls stage";
+  column-gap: clamp(2rem, 6vw, 6rem);
+  row-gap: 2.5rem;
+  align-items: start;
+}
+
+.intro {
+  grid-area: intro;
+
+  h1 {
+    font-family: var(--font-serif), serif;
+    font-size: clamp(2.75rem, 6.5vw, 5rem);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.01em;
+
+    em {
+      font-style: italic;
+    }
+  }
+
+  p {
+    max-width: 24rem;
+    margin-top: 1.25rem;
+    color: var(--text-muted);
+  }
+}
+
+.stage {
+  grid-area: stage;
+  justify-self: center;
+  width: 100%;
+  max-width: 34rem;
+}
+
+.controls {
+  grid-area: controls;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 28rem;
+}
+
+/* ---- the frame ----------------------------------------------------------------------------- */
+
+.frame {
+  @include focus-ring;
+  position: relative;
+  display: block;
+  width: min(100%, 34rem, 57dvh); // keeps the whole 4:5 frame on screen
+  margin-inline: auto;
+  aspect-ratio: 4 / 5;
+  container-type: inline-size; // so the ring and lines can size themselves from the frame (cqw)
+
+  border: 1px solid var(--hairline);
+  border-radius: 0.25rem;
+  background-color: var(--surface);
+  overflow: hidden;
+  cursor: pointer;
+
+  transition: border-color var(--duration) var(--ease), background-color var(--duration) var(--ease);
+
+  --fr: 15cqw; // ring radius
+  --line: color-mix(in srgb, var(--text) 38%, transparent);
+
+  &:hover,
+  &.dragging {
+    border-color: var(--text);
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+}
+
+// with a picture in it, the bands around the picture use the softer tone (white is too stark in light mode)
+.filled {
+  background-color: var(--surface-2);
+}
+
+/* Corner marks, like a viewfinder. */
+.corner {
+  position: absolute;
+  z-index: 2;
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 0 solid var(--text);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+.tl {
+  top: 0.8rem;
+  left: 0.8rem;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+
+.tr {
+  top: 0.8rem;
+  right: 0.8rem;
+  border-top-width: 1px;
+  border-right-width: 1px;
+}
+
+.bl {
+  bottom: 0.8rem;
+  left: 0.8rem;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+}
+
+.br {
+  right: 0.8rem;
+  bottom: 0.8rem;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+}
+
+// Lines through the center that stop at the ring, as on the landing page.
+.lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0.7;
+  transition: opacity var(--duration) var(--ease);
+
+  background:
+    // the vertical line stops above the prompt text instead of running through it
+    linear-gradient(var(--line), var(--line)) 50% 0 / 1px 70% no-repeat,
+    linear-gradient(var(--line), var(--line)) 0 50% / 100% 1px no-repeat;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent var(--fr), #000 calc(var(--fr) + 1px));
+  mask-image: radial-gradient(circle at 50% 50%, transparent var(--fr), #000 calc(var(--fr) + 1px));
+}
+
+.frame:hover .lines,
+.dragging .lines {
+  opacity: 1;
+}
+
+.ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: calc(var(--fr) * 2);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+
+  border: 1px solid var(--text);
+  border-radius: 50%;
+  color: var(--text);
+  transition: transform 0.3s var(--ease);
+
+  :global(.material-symbols-outlined) {
+    font-size: 2rem;
+    font-weight: 200;
+  }
+}
+
+.frame:hover .ring,
+.dragging .ring {
+  transform: translate(-50%, -50%) scale(1.06);
+}
+
+.prompt {
+  position: absolute;
+  inset: auto 1.5rem 2.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  text-align: center;
+
+  strong {
+    font-family: var(--font-serif), serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  span {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  small {
+    margin-top: 0.5rem;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+}
+
+.preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---- the progress ring (while uploading) ---------------------------------------------------- */
+
+.progress {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+
+  background-color: rgb(5 5 18 / 0.62);
+  color: #fff;
+  animation: fade 0.3s var(--ease);
+
+  svg {
+    grid-area: 1 / 1;
+    width: 34cqw;
+    height: 34cqw;
+    transform: rotate(-90deg); // start at 12 o'clock
+  }
+
+  circle {
+    fill: none;
+    stroke-width: 1.5;
+  }
+}
+
+.track {
+  stroke: rgb(255 255 255 / 0.28);
+}
+
+.bar {
+  stroke: #fff;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.2s linear;
+}
+
+.percent {
+  grid-area: 1 / 1;
+  font-size: 1.1rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+}
+
+/* ---- file info under the frame -------------------------------------------------------------- */
+
+.meta {
+  display: flex;
+  justify-content: center;
+  gap: 0.4ch;
+  margin-top: 1rem;
+
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: pre;
+}
+
+.fileName {
+  min-width: 0;
+  max-width: 16rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- the fields ------------------------------------------------------------------------------ */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+
+  label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  input {
+    width: 100%;
+    padding: 0.4rem 0;
+
+    border-bottom: 1px solid var(--hairline);
+    background: transparent;
+    outline: none;
+
+    font-family: var(--font-serif), serif;
+    font-size: clamp(1.75rem, 3.4vw, 2.25rem);
+    line-height: 1.15;
+    color: var(--text);
+
+    transition: border-color var(--duration) var(--ease);
+
+    &::placeholder {
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    &:focus {
+      border-bottom-color: var(--text);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.remove {
+  @include focus-ring;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--hairline);
+
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+
+  transition: color var(--duration) var(--ease), border-color var(--duration) var(--ease);
+
+  &:hover {
+    color: var(--text);
+    border-bottom-color: var(--text);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media screen and (max-width: $portrait-breakpoint) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-template-areas:
+      "intro"
+      "stage"
+      "controls";
+    row-gap: 2rem;
+  }
+
+  .controls {
+    max-width: none;
+  }
+}
