@@ -35,6 +35,10 @@
   color: var(--text-muted);
 }
 
+.countHidden {
+  visibility: hidden;
+}
+
 .search {
   flex: 0 1 20rem;
   min-width: 12rem;
@@ -75,5 +79,80 @@
 
   .search {
     flex-basis: 100%;
+  }
+}
+
+/* Empty, no-matches and error screens. Left-aligned like the title above them. */
+.state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.1rem;
+  max-width: 36rem;
+  padding: clamp(2rem, 6vw, 4.5rem) 0 4rem;
+
+  h2 {
+    font-family: var(--font-serif), serif;
+    font-size: clamp(2.25rem, 5.5vw, 3.75rem);
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+
+    em {
+      font-style: italic;
+    }
+  }
+
+  p {
+    color: var(--text-muted);
+  }
+
+  > :last-child {
+    margin-top: 0.6rem;
+  }
+}
+
+/* Loading: the same masonry, with quiet placeholder tiles. */
+.skeleton {
+  min-width: 0;
+}
+
+.skeletonFrame {
+  width: 100%;
+  border-radius: 0.25rem;
+  box-shadow: inset 0 0 0 1px var(--border);
+  background: linear-gradient(100deg, var(--surface-2) 30%, var(--surface-hover) 50%, var(--surface-2) 70%);
+  background-size: 300% 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+.skeletonCaption {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.85rem;
+
+  span {
+    height: 0.75rem;
+    border-radius: 0.2rem;
+    background-color: var(--surface-2);
+
+    &:first-child {
+      width: 55%;
+    }
+
+    &:last-child {
+      width: 32%;
+      height: 0.55rem;
+    }
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: 0 0;
   }
 }
