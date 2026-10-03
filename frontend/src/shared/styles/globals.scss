@@ -20,18 +20,10 @@
   --text-muted: #a5a4c4;
 
   --accent: #8566ee;
-  --accent-text: #9b82f2;
-  --gradient: linear-gradient(90deg, #5b14c9, #7c5ce8);
-  --gradient-text: linear-gradient(90deg, #7a52e0, #a08af5);
-  --on-accent: #ffffff;
   --solid-bg: #ffffff;
   --solid-fg: #0a0a1f;
 
-  --danger: #f0555a;
-  --success: #3fcf8e;
-
   --overlay: rgb(5 5 20 / 0.72);
-  --shadow: 0 10px 30px rgb(0 0 0 / 0.45);
   --glass: rgb(10 10 31 / 0.72);
 }
 
@@ -49,25 +41,17 @@
   --text-muted: #5b5878;
 
   --accent: #6a42dc;
-  --accent-text: #5b33cc;
-  --gradient: linear-gradient(90deg, #5b14c9, #7c5ce8);
-  --gradient-text: linear-gradient(90deg, #5b14c9, #8a6af0);
-  --on-accent: #ffffff;
   --solid-bg: #14122b;
   --solid-fg: #ffffff;
 
-  --danger: #d6303a;
-  --success: #1b9a63;
-
   --overlay: rgb(20 18 43 / 0.55);
-  --shadow: 0 10px 30px rgb(40 30 90 / 0.15);
   --glass: rgb(246 245 252 / 0.78);
 }
 
 :root {
+  --danger: #d6303a;
+
   --radius-sm: 0.5rem;
-  --radius-md: 0.875rem;
-  --radius-lg: 1.25rem;
   --radius-pill: 999px;
 
   --ease: cubic-bezier(0.2, 0, 0, 1);
