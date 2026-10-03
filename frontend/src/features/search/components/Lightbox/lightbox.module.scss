@@ -1,0 +1,211 @@
+@use "@/shared/styles/variables.scss" as *;
+@use "@/shared/styles/mixins.scss" as *;
+
+.lightbox {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+  background-color: #05051a;
+
+  --text: #ffffff;
+  --text-muted: rgb(255 255 255 / 0.75);
+  --surface-2: rgb(255 255 255 / 0.14);
+  --surface-hover: rgb(255 255 255 / 0.24);
+  --border: rgb(255 255 255 / 0.3);
+  --solid-bg: #ffffff;
+  --solid-fg: #0a0a1f;
+  color: #ffffff;
+
+  // with anything less, the page's header and grid ghost through behind the controls.
+  &::backdrop {
+    background-color: #05051a;
+  }
+
+  &[open] {
+    animation: fade 0.25s var(--ease);
+  }
+}
+
+.layout {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.counter {
+  position: absolute;
+  z-index: 2;
+  top: clamp(1.25rem, 3.4vw, 2.25rem);
+  left: clamp(1rem, 3vw, 2rem);
+
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+/* Round hairline buttons: close, previous, next. */
+.round {
+  @include flex;
+  @include focus-ring;
+  z-index: 2;
+
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+
+  color: #fff;
+  background-color: rgb(5 5 18 / 0.35);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  transition: background-color var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+
+  &:hover {
+    background-color: rgb(255 255 255 / 0.18);
+    box-shadow: inset 0 0 0 1px #fff;
+  }
+
+  :global(.material-symbols-outlined) {
+    font-size: 1.5rem;
+  }
+}
+
+.close {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+}
+
+.stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin-block: 3rem 0.5rem;
+  touch-action: pan-y; /* vertical scroll stays native; horizontal swipes are ours */
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+}
+
+.original {
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+
+  &.loaded {
+    opacity: 1;
+  }
+}
+
+/* A thin ring with one bright arc, like the ring on the landing page. */
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: -1.375rem 0 0 -1.375rem;
+
+  border-radius: 50%;
+  border: 1px solid rgb(255 255 255 / 0.2);
+  border-top-color: #fff;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.prev,
+.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-top: 1rem;
+
+  h2 {
+    min-width: 0;
+
+    font-family: var(--font-serif), serif;
+    font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+    font-weight: 400;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  gap: 0.6rem;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@media screen and (max-width: $mobile-breakpoint) {
+  .stage {
+    margin-top: 2.75rem;
+  }
+
+  /* the arrows would cover the picture; swiping and the keys do that job on small screens */
+  .prev,
+  .next {
+    width: 2.25rem;
+    height: 2.25rem;
+    opacity: 0.85;
+  }
+
+  .bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.9rem;
+  }
+
+  .actions {
+    justify-content: stretch;
+
+    > * {
+      flex: 1;
+    }
+  }
+}

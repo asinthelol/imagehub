@@ -1,20 +1,5 @@
-$background-color: rgba(15, 15, 17, 1);
-$foreground-color: rgba(18, 18, 20, 1);
-
-$color-primary: linear-gradient(to right, #5976BA, #6654D0);
-$color-primary-underline: linear-gradient(to right, transparent, #5976BA, #6654D0, transparent);
-$color-secondary: rgba(17, 17, 17, 1);
-$color-secondary-light: rgba(23, 23, 23, 1);
-
-$text-color: rgba(242, 239, 234, 1);
-$text-color-dark: rgba(163, 162, 160, 1);
-
-$outline-color: rgba(158, 158, 158, 0.3);
-
+// Compile-time values only (media queries can't read CSS custom properties).
+// Colors, radii and shadows live as CSS variables in globals.scss.
 $mobile-breakpoint: 45rem;
 $portrait-breakpoint: 64rem;
 $landscape-breakpoint: 80rem;
-
-$animation-duration: 0.3s;
-$transition-duration: 0.2s;
-$transition-duration-2: 0.5s;

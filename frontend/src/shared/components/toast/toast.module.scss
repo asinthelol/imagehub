@@ -1,0 +1,55 @@
+@use "@/shared/styles/variables.scss" as *;
+
+.region {
+  position: fixed;
+  inset: clamp(1rem, 3vw, 1.75rem) auto auto 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  overflow: visible;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+
+  &:popover-open {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  pointer-events: none;
+}
+
+.toast {
+  max-width: 26rem;
+  padding: 0.85rem 1.15rem;
+
+  background-color: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--hairline);
+  border-radius: 0.25rem;
+  font-size: 0.9rem;
+  text-align: center;
+
+  animation: toast-in 0.35s var(--ease);
+}
+
+.error {
+  box-shadow: inset 3px 0 0 var(--danger);
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(-0.6rem);
+  }
+}
+
+@media screen and (max-width: $mobile-breakpoint) {
+  .toast {
+    max-width: calc(100vw - 10rem);
+  }
+}

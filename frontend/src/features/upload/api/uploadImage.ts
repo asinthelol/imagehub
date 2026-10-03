@@ -1,47 +1,45 @@
-export default async function uploadImage(
-  event: React.FormEvent,
-  textRef: React.RefObject<HTMLInputElement>,
-  fileRef: React.RefObject<HTMLInputElement>
-) {
-  event.preventDefault();
+import { API_URL } from "@/shared/config";
 
-  if(!textRef.current || !fileRef.current) {
-    return;
-  }
+type UploadOptions = {
+  file: File;
+  name: string;
+  onProgress?: (fraction: number) => void;
+};
 
-  const imageName = textRef.current.value.trim();
-  const file = fileRef.current?.files?.[0];
-
-  if (!imageName) {
-    alert("Please provide an image name.");
-    textRef.current.focus();
-    return;
-  }
-
-  if (!file) {
-    alert("Please select a file to upload.");
-    fileRef.current.focus();
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("imageName", imageName);
-  formData.append("imagePath", "/");
-
+// Pixel size of an image file, or null if the browser can't decode it
+async function measureImage(file: File): Promise<{ width: number; height: number } | null> {
   try {
-    const response = await fetch("http://localhost:5000/api/upload", {
-      method: "POST",
-      credentials: 'include',
-      body: formData
-    });
-
-    if(response.ok) {
-      console.log("Image uploaded successfully");
-      window.location.href = "/search";
-    }
-  } catch (error) {
-    console.error("Failed to upload image2", error);
-    alert("An error occurred while uploading the image.");
+    const bitmap = await createImageBitmap(file);
+    const size = { width: bitmap.width, height: bitmap.height };
+    bitmap.close();
+    return size;
+  } catch {
+    return null;
   }
+}
+
+// XMLHttpRequest instead of fetch because fetch can't report upload progress.
+export async function uploadImage({ file, name, onProgress }: UploadOptions): Promise<void> {
+  const size = await measureImage(file);
+
+  return new Promise((resolve, reject) => {
+    const form = new FormData();
+    form.append("file", file);
+    form.append("imageName", name);
+    form.append("imagePath", "/"); // required by the .NET backend, ignored by Spring
+    if (size) {
+      form.append("width", String(size.width));
+      form.append("height", String(size.height));
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `${API_URL}/api/upload`);
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) onProgress?.(event.loaded / event.total);
+    };
+    xhr.onload = () =>
+      xhr.status >= 200 && xhr.status < 300 ? resolve() : reject(new Error(`Upload failed (${xhr.status})`));
+    xhr.onerror = () => reject(new Error("Could not reach the server"));
+    xhr.send(form);
+  });
 }

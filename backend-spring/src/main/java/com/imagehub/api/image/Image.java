@@ -16,6 +16,13 @@ public class Image {
     private String name;
     private String path;
 
+    // Pixel size. Null for rows created before this existed.
+    private Integer width;
+    private Integer height;
+
+    // Value is null until set by the thumbnail service
+    private String thumbPath;
+
     protected Image() {} // required by JPA
 
     public Image(String name, String path) {
@@ -27,4 +34,16 @@ public class Image {
     public String getName() { return name; }
     public String getPath() { return path; }
     public void setPath(String path) { this.path = path; }
+    public Integer getWidth() { return width; }
+    public Integer getHeight() { return height; }
+    public String getThumbPath() { return thumbPath; }
+    public void setThumbPath(String thumbPath) { this.thumbPath = thumbPath; }
+
+    // Stores the size only if both values look sane; otherwise leaves them null.
+    public void setDimensions(Integer width, Integer height) {
+        if (width != null && height != null && width > 0 && height > 0 && width <= 100_000 && height <= 100_000) {
+            this.width = width;
+            this.height = height;
+        }
+    }
 }

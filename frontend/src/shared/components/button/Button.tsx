@@ -1,26 +1,48 @@
-import styles from "./button.module.scss";
 import Link from "next/link";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
+import styles from "./button.module.scss";
 
-type ButtonProps = {
-  text: string;
-  style: string;
-  href: string;
-  onClick?: () => void;
-  type?: "button" | "submit" | "reset";
-}
+type Variant = "solid" | "secondary" | "danger";
 
-export default function Button({ text, style, href, onClick, type}: ButtonProps) {
-  if (type === "submit") {
+type CommonProps = {
+  variant?: Variant;
+  icon?: string;
+  children: ReactNode;
+  className?: string;
+};
+
+type ButtonProps =
+  | (CommonProps & { href: string } & Omit<React.ComponentProps<typeof Link>, "href" | "className" | "children">)
+  | (CommonProps & { href?: undefined } & ButtonHTMLAttributes<HTMLButtonElement>);
+
+/** Renders a <Link> when given an href, otherwise a <button>. */
+export default function Button(props: ButtonProps) {
+  const { variant = "solid", icon, children, className, ...rest } = props;
+  const classes = `${styles.button} ${styles[variant]} ${className ?? ""}`;
+  const content = (
+    <>
+      {children}
+      {icon && (
+        <span className="material-symbols-outlined" aria-hidden="true">
+          {icon}
+        </span>
+      )}
+    </>
+  );
+
+  if (props.href !== undefined) {
+    const { href, ...linkRest } = rest as Omit<React.ComponentProps<typeof Link>, "className" | "children">;
     return (
-      <button className={`${styles[style]} ${styles.button}`} type="submit" onClick={onClick}>
-        {text}
-      </button>
+      <Link className={classes} href={href} {...linkRest}>
+        {content}
+      </Link>
     );
   }
 
+  const buttonRest = rest as ButtonHTMLAttributes<HTMLButtonElement>;
   return (
-    <Link className={`${styles[style]} ${styles.button}`} aria-label="button" href={href || "#"} onClick={onClick}>
-      {text}
-    </Link>
+    <button className={classes} type={buttonRest.type ?? "button"} {...buttonRest}>
+      {content}
+    </button>
   );
 }

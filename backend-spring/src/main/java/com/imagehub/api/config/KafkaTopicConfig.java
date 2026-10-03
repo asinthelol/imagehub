@@ -12,4 +12,9 @@ public class KafkaTopicConfig {
     NewTopic imageEventsTopic(@Value("${imagehub.kafka.topic}") String name) {
         return TopicBuilder.name(name).partitions(3).replicas(1).build();
     }
+
+    @Bean
+    NewTopic thumbnailEventsTopic(@Value("${imagehub.kafka.thumbnail-topic}") String name) {
+        return TopicBuilder.name(name).partitions(3).replicas(1).build();
+    }
 }

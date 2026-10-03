@@ -1,8 +1,14 @@
-@use 'variables' as *;
-
 @mixin flex($justify: center, $align: center, $direction: row) {
   display: flex;
   justify-content: $justify;
   align-items: $align;
   flex-direction: $direction;
+}
+
+// Keyboard-only focus ring, driven by the --accent token.
+@mixin focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
 }

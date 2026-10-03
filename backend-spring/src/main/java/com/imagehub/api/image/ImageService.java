@@ -7,7 +7,10 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +20,9 @@ import com.imagehub.api.event.ImageEventPublisher;
 
 @Service
 public class ImageService {
+
+    private static final Logger log = LoggerFactory.getLogger(ImageService.class);
+    private static final String THUMB_PREFIX = "/uploads/thumbs/";
 
     private final ImageRepository repository;
     private final ImageEventPublisher events;
@@ -38,23 +44,61 @@ public class ImageService {
         return repository.findById(id);
     }
 
-    public Image upload(MultipartFile file, String name) {
-        // Save first so the database assigns the id, which becomes the file name.
-        Image image = repository.save(new Image(name.replace(" ", "_"), "/"));
+    public Image upload(MultipartFile file, String name, Integer width, Integer height) {
+        // A random file name means a URL is never reused.
+        // (a switch between backends would put a new picture at an old URL)
+        String fileName = UUID.randomUUID() + extensionOf(file.getOriginalFilename());
+        Path target = uploadDir.resolve(fileName);
 
         try {
             Files.createDirectories(uploadDir);
-            String fileName = image.getId() + extensionOf(file.getOriginalFilename());
-            Files.copy(file.getInputStream(), uploadDir.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
-            image.setPath("/uploads/" + fileName);
+            Files.copy(file.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            repository.delete(image);
             throw new UncheckedIOException(e);
         }
 
-        image = repository.save(image);
-        events.publish(new ImageEvent(ImageEvent.Type.UPLOADED, image.getId()));
+        Image created = new Image(name.replace(" ", "_"), "/uploads/" + fileName);
+        created.setDimensions(width, height);
+
+        Image image;
+        try {
+            image = repository.save(created);
+        } catch (RuntimeException e) {
+            deleteQuietly(target);
+            throw e;
+        }
+
+        events.publish(new ImageEvent(ImageEvent.Type.UPLOADED, image.getId(), image.getPath()));
         return image;
+    }
+
+    /**
+     * Called when the thumbnail service reports that a thumbnail exists. Returns the image if it
+     * was updated, or empty if the image is gone (deleted meanwhile) or the path isn't acceptable.
+     */
+    public Optional<Image> attachThumbnail(Integer id, String thumbPath) {
+        boolean valid = id != null && thumbPath != null && thumbPath.startsWith(THUMB_PREFIX)
+                && thumbPath.length() < 300 && !thumbPath.contains("..") && !thumbPath.contains("\\");
+        if (!valid) {
+            log.warn("Ignoring thumbnail event for image {} with path {}", id, thumbPath);
+            return Optional.empty();
+        }
+
+        return repository.findById(id).map(image -> {
+            image.setThumbPath(thumbPath);
+            return repository.save(image);
+        });
+    }
+
+    /**
+     * Re-publishes UPLOADED for every image that has no thumbnail, so the thumbnail service picks
+     * them up like any new upload. Used to back-fill images that were uploaded before it existed.
+     */
+    public int requestMissingThumbnails() {
+        List<Image> missing = repository.findByThumbPathIsNull();
+        missing.forEach(image ->
+                events.publish(new ImageEvent(ImageEvent.Type.UPLOADED, image.getId(), image.getPath())));
+        return missing.size();
     }
 
     public boolean delete(int id) {
@@ -70,9 +114,18 @@ public class ImageService {
             throw new UncheckedIOException(e);
         }
 
+        // The event carries the original's path so the thumbnail service can remove the thumbnail.
+        String path = found.get().getPath();
         repository.delete(found.get());
-        events.publish(new ImageEvent(ImageEvent.Type.DELETED, id));
+        events.publish(new ImageEvent(ImageEvent.Type.DELETED, id, path));
         return true;
+    }
+
+    private static void deleteQuietly(Path file) {
+        try {
+            Files.deleteIfExists(file);
+        } catch (IOException ignored) {
+        }
     }
 
     private static String extensionOf(String originalName) {

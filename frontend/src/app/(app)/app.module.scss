@@ -1,0 +1,5 @@
+.main {
+  width: min(100%, 90rem);
+  margin-inline: auto;
+  padding: clamp(1.75rem, 5vw, 3.5rem) clamp(1rem, 4vw, 3rem) 5rem;
+}

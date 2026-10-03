@@ -1,0 +1,32 @@
+@use "@/shared/styles/mixins.scss" as *;
+
+.toggle {
+  @include flex;
+  @include focus-ring;
+
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+
+  transition: background-color var(--duration) var(--ease), color var(--duration) var(--ease);
+
+  &:hover {
+    background-color: var(--surface-2);
+    color: var(--text);
+  }
+}
+
+/* In the dark theme show the sun (click for light), and vice versa. */
+.moon {
+  display: none;
+}
+
+:global(:root[data-theme="light"]) {
+  .sun {
+    display: none;
+  }
+  .moon {
+    display: inline-block;
+  }
+}
