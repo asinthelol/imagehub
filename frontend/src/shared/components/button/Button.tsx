@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import styles from "./button.module.scss";
 
-type Variant = "primary" | "solid" | "secondary" | "ghost" | "danger";
+type Variant = "solid" | "secondary" | "danger";
 
 type CommonProps = {
   variant?: Variant;
@@ -17,7 +17,7 @@ type ButtonProps =
 
 /** Renders a <Link> when given an href, otherwise a <button>. */
 export default function Button(props: ButtonProps) {
-  const { variant = "primary", icon, children, className, ...rest } = props;
+  const { variant = "solid", icon, children, className, ...rest } = props;
   const classes = `${styles.button} ${styles[variant]} ${className ?? ""}`;
   const content = (
     <>

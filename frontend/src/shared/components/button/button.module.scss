@@ -34,16 +34,6 @@
   }
 }
 
-.primary {
-  background: var(--gradient);
-  color: var(--on-accent);
-
-  &:hover {
-    filter: brightness(1.12);
-    box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 45%, transparent);
-  }
-}
-
 .solid {
   background-color: var(--solid-bg);
   color: var(--solid-fg);
@@ -60,15 +50,6 @@
 
   &:hover {
     background-color: var(--surface-hover);
-  }
-}
-
-.ghost {
-  color: var(--text-muted);
-
-  &:hover {
-    color: var(--text);
-    background-color: var(--surface-2);
   }
 }
 
