@@ -45,7 +45,7 @@
   padding-top: 0.65rem;
   overflow: hidden;
 
-  h3 {
+  h2 {
     font-family: var(--font-serif), serif;
     font-size: 1.3rem;
     font-weight: 400;
@@ -62,6 +62,7 @@
 
   button {
     @include focus-ring;
+    position: relative;
     padding: 0;
 
     font-size: 0.7rem;
@@ -74,6 +75,13 @@
 
     &:hover {
       color: var(--text);
+    }
+
+    // the tap target is at least 24px tall without changing the layout
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -0.45rem -0.4rem;
     }
   }
 }

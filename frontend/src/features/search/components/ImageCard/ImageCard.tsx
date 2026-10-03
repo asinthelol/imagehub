@@ -49,7 +49,7 @@ export default function ImageCard({ image, onOpen, onDownload, onDelete, index =
       </button>
 
       <div className={styles.caption} style={{ height: CAPTION_HEIGHT }}>
-        <h3 title={title}>{title}</h3>
+        <h2 title={title}>{title}</h2>
         <div className={styles.actions}>
           <button type="button" onClick={onDownload} aria-label={`Download ${title}`}>
             Download
