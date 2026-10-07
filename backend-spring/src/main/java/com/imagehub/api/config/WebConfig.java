@@ -26,6 +26,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins(allowedOrigin)
                 .allowedMethods("GET", "POST", "DELETE")
                 .allowCredentials(true);
+
+        registry.addMapping("/uploads/**")
+                .allowedOrigins(allowedOrigin)
+                .allowedMethods("GET");
     }
 
     // Serve uploaded files at /uploads/** (the .NET app did this with wwwroot + UseStaticFiles).
